@@ -4,11 +4,11 @@
       <h1 class="text-5xl">We Serve, You enjoy</h1>
     </div>
     <div class="sm:flex sm:m-auto mt-8">
-      <div class="m-auto flex flex-col">
+      <div class="m-auto flex flex-col sm:flex-row">
         <input
           type="text"
           class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
-        /><input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8 sm:mt-0" placeholder="Location"/>
+        /><input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"/>
         <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport" />
       </div>
     </div>
