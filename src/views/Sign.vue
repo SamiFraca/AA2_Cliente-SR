@@ -11,3 +11,10 @@ export default {
   methods: {},
 };
 </script>
+<style>
+body {
+  background-image: url(../assets/pexels-pixabay-269948.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+</style>
