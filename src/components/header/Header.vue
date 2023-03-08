@@ -4,7 +4,8 @@
       <img src="../../assets/logo.png" style="height:4rem;" />
     </div>
     <div class="justify-center flex justify-between p-8 hidden sm:inline-block">
-      <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">Log In</button>
+     <router-link to="/admin">Log In</router-link>
+     <!-- <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"> -->
       <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">Sign In</button>
     </div>
     <div class="self-center mr-8 sm:hidden">
