@@ -1,6 +1,11 @@
 <template>
   <v-main>
-    <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+    <transition name="fade">
+      <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+    </transition>
+    <transition name="fade">
+      <div v-if="isLogged" class="success-message">Welcome back {{ LoggedUsername }}!</div>
+    </transition>
     <div class="mt-12">
       <h1 class="text-5xl">We Serve, You enjoy</h1>
     </div>
@@ -21,14 +26,31 @@ export default {
   data() {
     return {
       isRegistered: false,
+      isLogged: false,
+      LoggedUsername: null
     }
-  }, 
+  },
   mounted() {
-    // Check if the registrationSuccess query parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
     const registrationSuccess = urlParams.get('registrationSuccess');
+    const loggedSuccess = urlParams.get("LoginSuccess")
+    const loggedUser = localStorage.getItem("user")
+    console.log(localStorage.getItem("user"))
+    console.log(JSON.parse(loggedUser))
+    console.log(this.LoggedUsername)
     if (registrationSuccess === 'true') {
       this.isRegistered = true;
+      setTimeout(() => {
+        this.isRegistered = false;
+      }, 4000);
+    }
+    if (loggedSuccess === 'true' && loggedUser) {
+       const user = JSON.parse(loggedUser)
+      this.LoggedUsername = user
+      this.isLogged = true;
+      setTimeout(() => {
+        this.isLogged = false;
+      }, 4000);
     }
   },
 
@@ -50,5 +72,15 @@ body {
   color: white;
   padding: 10px;
   border-radius: 5px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
