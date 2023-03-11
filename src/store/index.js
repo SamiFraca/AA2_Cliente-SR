@@ -25,13 +25,10 @@ const store = createStore({
           .post("https://localhost:8080/Users", credentials)
           .then((response) => {
             console.log(response.data)
-            const token = response.data.token;
             const user = response.data.username;
             console.log(response.data.token)
             console.log(user)
-            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
-            context.commit("setToken", token);
             context.commit("setUser", user);
             context.commit("setLoggedIn", true);
             resolve(response);
