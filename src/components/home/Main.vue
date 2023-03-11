@@ -1,6 +1,8 @@
 <template>
   <v-main>
-    <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+    <transition name="fade">
+      <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+    </transition>
     <div class="mt-12">
       <h1 class="text-5xl">We Serve, You enjoy</h1>
     </div>
@@ -22,12 +24,15 @@ export default {
     return {
       isRegistered: false,
     }
-  }, 
+  },
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
     const registrationSuccess = urlParams.get('registrationSuccess');
     if (registrationSuccess === 'true') {
       this.isRegistered = true;
+      setTimeout(() => {
+        this.isRegistered = false;
+      }, 4000); // 4 seconds delay before hiding the success message
     }
   },
 
@@ -49,5 +54,15 @@ body {
   color: white;
   padding: 10px;
   border-radius: 5px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
