@@ -39,7 +39,7 @@ export default {
       Password: '',
       Password2: '',
       selectedOption: null,
-      myBar: null
+      myBar: null,
     };
   },
   components: {},
@@ -71,7 +71,7 @@ export default {
         };
         const response = await axios.post('https://localhost:8080/Users', user)
           .then(() => {
-            this.$router.push('/');
+            this.$router.push({ name: 'Home', query: { registrationSuccess: true } });
           });
 
         console.log('User created:', response.data);
