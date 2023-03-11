@@ -27,9 +27,7 @@ const store = createStore({
             console.log(response.data)
             const user = response.data.username;
             console.log(user)
-            localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
-            context.commit("setToken", token);
             context.commit("setUser", user);
             context.commit("setLoggedIn", true);
             resolve(response);
