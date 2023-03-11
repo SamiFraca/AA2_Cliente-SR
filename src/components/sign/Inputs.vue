@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     submitForm() {
-      if (!this.Username || !this.Password || !this.Password2 || (!this.isOwner && !this.isUser)) {
+      if (!this.Username || !this.Password || !this.Password2 || !this.selectedOption) {
         alert("Fill everything")
       }
       else {
