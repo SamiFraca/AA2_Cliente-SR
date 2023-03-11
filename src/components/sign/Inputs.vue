@@ -1,58 +1,91 @@
 <template>
-  <div
-    class="bg-white w-sign-width h-sign-height relative rounded-lg flex justify-center"
-  >
-    <form @submit.prevent="Data">
+  <div class="bg-white w-sign-width h-sign-height relative rounded-lg flex justify-center">
+    <form @submit.prevent="submitForm">
       <div class="flex flex-col my-12 justify-center">
-        <input
-          v-model="inputData"
-          type="text"
-          placeholder="Username"
-          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg"
-        />
-        <input
-          v-model="inputData"
-          type="text"
-          placeholder="Username"
-          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8"
-        />
-        <input
-          v-model="inputData"
-          type="text"
-          placeholder="Username"
-          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8"
-        />
-        <div class="mt-8 flex flex-col">
+        <input v-model="Username" type="text" placeholder="Username"
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg" />
+        <input v-model="Password" type="password" placeholder="Password"
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8" />
+        <input v-model="Password2" type="password" placeholder="Re-enter password"
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8" />
+        <br>
+        <p v-if="!passwordsMatch" class="flex flex-start">Password doesn't match. Please, try again.</p>
+        <div class="mt-8 flex">
           <h3>Are you a bar owner?</h3>
-          <div class="flex mt-8">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
-            >
-              Yes
-            </button>
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
-            >
-              No
-            </button>
-          </div>
+          <span class="ml-5">Yes
+            <input type="radio" name="" id="" class="" v-model="selectedOption" value="option1"></span>
+          <span class="ml-5">No
+            <input type="radio" name="" id="" class="" v-model="selectedOption" value="option2"></span>
         </div>
       </div>
-      <button
-        class="bg-blue-700 hover:bg-blue-900  text-white font-bold px-4 py-2 rounded"
-      >Register</button>
+      <button class="bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 py-2 rounded" type="submit"
+        :disabled="!formValid" :class="{ 'disabled': !formValid }">
+        Register
+      </button>
     </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 // @ is an alias to /src
 export default {
   name: "Input",
+  inject: ['router'],
   data() {
-    return {};
+    return {
+      id: 0,
+      Username: '',
+      Password: '',
+      Password2: '',
+      selectedOption: null,
+      myBar: null
+    };
   },
   components: {},
-  methods: {},
+  computed: {
+    passwordsMatch() {
+      return this.Password === this.Password2;
+    },
+    formValid() {
+      return this.passwordsMatch && this.Password.length > 0 && this.Password2.length > 0
+    }
+  },
+  methods: {
+    submitForm() {
+      if (!this.Username || !this.Password || !this.Password2 || (!this.isOwner && !this.isUser)) {
+        alert("Fill everything")
+      }
+      else {
+        this.createUser();
+      }
+    },
+    async createUser() {
+      try {
+        const user = {
+          id: 0,
+          isAdmin: true,
+          myBar: null,
+          password: this.Password,
+          username: this.Username,
+        };
+        const response = await axios.post('https://localhost:8080/Users', user)
+          .then(() => {
+            this.$router.push('/');
+          });
+
+        console.log('User created:', response.data);
+      } catch (error) {
+        console.error(error);
+        console.log("retard")
+      }
+    }
+  }
 };
 </script>
+<style>
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
