@@ -24,7 +24,6 @@ export default {
     }
   }, 
   mounted() {
-    // Check if the registrationSuccess query parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
     const registrationSuccess = urlParams.get('registrationSuccess');
     if (registrationSuccess === 'true') {
