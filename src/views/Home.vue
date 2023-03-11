@@ -8,13 +8,13 @@
 import { Header } from "@/components/header/index.js";
 import Main from "@/components/home/Main.vue";
 import axios from "axios";
-
+const apiURL = "https://localhost:8080"
 export default {
   name: "Home",
   components: { Header, Main },
   methods: {
     getList() {
-      axios.get("https://api.sampleapis.com/coffee/hot").then((response) => {
+      axios.get(`${apiURL}/Users`).then((response) => {
         console.log(response.data);
       });
     },
