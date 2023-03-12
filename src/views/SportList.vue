@@ -1,20 +1,20 @@
 <template>
-  <Header />
-  <Locations />
+    <Header />
+    <Sports />
 </template>
 
 <script>
 // @ is an alias to /src
 import Header from '@/components/header/Header.vue'
-import Locations from '@/components/search/Locations.vue'
+import Sports from '@/components/search/Sports.vue'
 export default {
-  name: "ListLocations",
+  name: "ListbyName",
   data() {
     return {
-      from: null
+
     }
   },
-  components: { Locations, Header },
+  components: { Sports, Header },
   methods: {
   },
 };

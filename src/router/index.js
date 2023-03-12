@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { Home, List, Sign,Login } from "../views/index.js";
+import { Home, List, Sign, Login, NameList } from "../views/index.js";
 
 const routes = [
   {
@@ -8,8 +8,8 @@ const routes = [
     component: Home,
   },
   {
-    path: "/list",
-    name: "List",
+    path: "/locations",
+    name: "Location",
     component: List,
   },
   {
@@ -18,10 +18,15 @@ const routes = [
     component: Sign,
   },
   {
-    path:"/login",
-    name:"Login",
-    component:Login,
-  }
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/names",
+    name: "Name",
+    component: NameList,
+  },
 ];
 
 const router = createRouter({
