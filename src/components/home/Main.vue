@@ -13,14 +13,14 @@
       <div v-if="failedName">
         <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
           v-model="searchName" @keyup.enter="submitName" />
-        <div class="no-results">No results found, please try again</div>
+        <div class="no-results shake">No results found, please try again</div>
       </div>
       <div v-else> <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
           v-model="searchName" @keyup.enter="submitName" /></div>
       <div v-if="failedLocation">
         <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
           v-model="searchLocation" @keyup.enter="submitLocation" />
-        <div class="no-results">No results found, please try again</div>
+        <div class="no-results shake">No results found, please try again</div>
       </div>
       <div v-else>
         <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
@@ -29,7 +29,7 @@
       <div v-if="failedSport">
         <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
           v-model="searchSport" @keyup.enter="submitSport" />
-        <div class="no-results">No results found, please try again</div>
+        <div class="no-results shake">No results found, please try again</div>
       </div>
       <div v-else><input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
           v-model="searchSport" @keyup.enter="submitSport" /></div>
@@ -157,20 +157,55 @@ body {
 }
 
 .no-results {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(163, 10, 10);
-    color: white;
-    border-radius: 10px;
-    padding: 5px;
-    font-weight: bold;
-    width: 50%;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(163, 10, 10);
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  font-weight: bold;
+  width: 50%;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.shake {
+  animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  10%,
+  90% {
+    transform: translateX(-10px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(10px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-10px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .success-message {
