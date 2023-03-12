@@ -5,6 +5,7 @@ const store = createStore({
   state: {
     isLoggedIn: false,
     user: null,
+    locations: [],
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -13,8 +14,14 @@ const store = createStore({
     setUser(state, payload) {
       state.user = payload;
     },
+    setLocations(state, payload) {
+      state.locations = payload;
+    },
   },
   actions: {
+    locations(){
+
+    },
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
@@ -43,6 +50,9 @@ const store = createStore({
     currentUser: (state) => {
       console.log(state.user);
       return state.user;
+    },
+    getLocations(state) {
+      return state.locations;
     },
   },
 });

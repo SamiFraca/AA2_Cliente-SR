@@ -1,6 +1,6 @@
 <template>
     <div class="ml-6">
-        <div v-for="item in locations" :key="item.id">
+        <div v-for="item in names" :key="item.id">
             <div class="flex my-5">
                 <img class="bar-pics" :src="barImages[Math.floor(Math.random() * barImages.length)]">
                 <div class="flex flex-col  ml-6 max-w-lg text-left justify-between">
@@ -44,24 +44,19 @@ export default {
     name: "Locations",
     data() {
         return {
-            barImage: null,
             barImages: [],
-            locations: []
+            sports: []
         }
     },
     components: {},
-
-    computed: {
-        // ...mapGetters(['getLocations'])
-    },
     mounted() {
         const url = 'https://api.pexels.com/v1/search?query=bars&per_page=10';
         const headers = {
             Authorization: 'EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx'
         };
-        const storedData = localStorage.getItem('locationSearch')
+        const storedData = localStorage.getItem('sportSearch')
         if (storedData) {
-            this.locations = JSON.parse(storedData)
+            this.sports = JSON.parse(storedData)
         }
         try {
             axios.get(url, { headers }).then(response => {

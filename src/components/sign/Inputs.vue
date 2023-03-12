@@ -77,7 +77,6 @@ export default {
         console.log('User created:', response.data);
       } catch (error) {
         console.error(error);
-        console.log("retard")
       }
     }
   }
