@@ -60,7 +60,7 @@ export default {
     async submitName() {
       const isRedirected = ref(false);
       console.log("entraName")
-      const url = `https://localhost:8080/Bars/name?receivedInput=${this.searchName}`;
+      const url = `https://localhost:8080/Bars/name?name=${this.searchName}`;
       try {
         await axios.get(url)
           .then((response) => {
@@ -79,7 +79,7 @@ export default {
     async submitLocation() {
       const isRedirected = ref(false);
       console.log("entraLocation")
-      const url = `https://localhost:8080/Bars/locations?receivedInput=${this.searchLocation}`;
+      const url = `https://localhost:8080/Bars/locations?location=${this.searchLocation}`;
       try {
         await axios.get(url)
           .then((response) => {
