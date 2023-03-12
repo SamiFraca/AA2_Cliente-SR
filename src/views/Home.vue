@@ -8,7 +8,7 @@
 import { Header } from "@/components/header/index.js";
 import Main from "@/components/home/Main.vue";
 import axios from "axios";
-const apiURL = "https://localhost:8080"
+const apiURL = "https://watchmeapi-test.azurewebsites.net"
 export default {
   name: "Home",
   components: { Header, Main },

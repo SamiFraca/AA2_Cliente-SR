@@ -69,7 +69,7 @@ export default {
           password: this.Password,
           username: this.Username,
         };
-        const response = await axios.post('https://localhost:8080/Users', user)
+        const response = await axios.post('https://watchmeapi-test.azurewebsites.net/Users', user)
           .then(() => {
             this.$router.push({ name: 'Home', query: { registrationSuccess: true } });
           });
