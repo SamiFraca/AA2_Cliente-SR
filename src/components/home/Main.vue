@@ -10,12 +10,29 @@
   </div>
   <div class="sm:flex sm:m-auto mt-8">
     <div class="m-auto flex flex-col sm:flex-row">
-      <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
-        v-model="searchName" @keyup.enter="submitName" /><input type="text"
-        class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location" v-model="searchLocation"
-        @keyup.enter="submitLocation" />
-      <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
-        v-model="searchSport" @keyup.enter="submitSport" />
+      <div v-if="failedName">
+        <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
+          v-model="searchName" @keyup.enter="submitName" />
+        <div class="no-results">No results found, please try again</div>
+      </div>
+      <div v-else> <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
+          v-model="searchName" @keyup.enter="submitName" /></div>
+      <div v-if="failedLocation">
+        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
+          v-model="searchLocation" @keyup.enter="submitLocation" />
+        <div class="no-results">No results found, please try again</div>
+      </div>
+      <div v-else>
+        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
+          v-model="searchLocation" @keyup.enter="submitLocation" />
+      </div>
+      <div v-if="failedSport">
+        <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
+          v-model="searchSport" @keyup.enter="submitSport" />
+        <div class="no-results">No results found, please try again</div>
+      </div>
+      <div v-else><input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
+          v-model="searchSport" @keyup.enter="submitSport" /></div>
     </div>
   </div>
   <div><img src="../../assets/GQ_50Greatest_final_v2.webp" class="hidden sm:block"></div>
@@ -35,7 +52,8 @@ export default {
       searchLocation: '',
       locations: [],
       searchName: '',
-      searchSport: ''
+      searchSport: '',
+      failedLocation: false
     }
   },
   methods: {
@@ -55,6 +73,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
+        // failedSport = true
       }
     },
     async submitName() {
@@ -93,6 +112,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
+        this.failedLocation = true;
       }
     }
   },
@@ -131,6 +151,20 @@ h1 {
 
 body {
   overflow: hidden;
+}
+
+.no-results {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(163, 10, 10);
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .success-message {
