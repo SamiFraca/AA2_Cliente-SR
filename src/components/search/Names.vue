@@ -7,6 +7,11 @@
                     <h1 class="text-xl">{{ item.name }}</h1>
                     <p>Location: {{ item.location }}</p>
                     <p>Capacity: {{ item.capacity }}</p>
+                    <div v-if="!item.shows == 0 || !undefined || !null" class="mt-4 flex flex-col">
+                        <h1>Shows:</h1>
+                        <span class="" v-for="show in item.shows" :key="show.id">{{ show.title }} -> {{ show.startTime }} to
+                            {{ show.endTime }}</span>
+                    </div>
                     <p class="mt-6">{{ item.description }}</p>
                 </div>
             </div>
@@ -57,6 +62,7 @@ export default {
         const storedData = localStorage.getItem('nameSearch')
         if (storedData) {
             this.names = JSON.parse(storedData)
+            console.log(this.names)
         }
         try {
             axios.get(url, { headers }).then(response => {

@@ -10,12 +10,29 @@
   </div>
   <div class="sm:flex sm:m-auto mt-8">
     <div class="m-auto flex flex-col sm:flex-row">
-      <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
-        v-model="searchName" @keyup.enter="submitName" /><input type="text"
-        class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location" v-model="searchLocation"
-        @keyup.enter="submitLocation" />
-      <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
-        v-model="searchSport" @keyup.enter="submitSport" />
+      <div v-if="failedName">
+        <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
+          v-model="searchName" @keyup.enter="submitName" />
+        <div class="no-results shake">No results found, please try again</div>
+      </div>
+      <div v-else> <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
+          v-model="searchName" @keyup.enter="submitName" /></div>
+      <div v-if="failedLocation">
+        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
+          v-model="searchLocation" @keyup.enter="submitLocation" />
+        <div class="no-results shake">No results found, please try again</div>
+      </div>
+      <div v-else>
+        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
+          v-model="searchLocation" @keyup.enter="submitLocation" />
+      </div>
+      <div v-if="failedSport">
+        <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
+          v-model="searchSport" @keyup.enter="submitSport" />
+        <div class="no-results shake">No results found, please try again</div>
+      </div>
+      <div v-else><input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
+          v-model="searchSport" @keyup.enter="submitSport" /></div>
     </div>
   </div>
   <div><img src="../../assets/GQ_50Greatest_final_v2.webp" class="hidden sm:block"></div>
@@ -35,26 +52,30 @@ export default {
       searchLocation: '',
       locations: [],
       searchName: '',
-      searchSport: ''
+      searchSport: '',
+      failedLocation: false,
+      failedSport: false,
+      failedName: false,
     }
   },
   methods: {
     async submitSport() {
       const isRedirected = ref(false);
-      console.log("entraName")
-      const url = `https://localhost:8080/Shows/sport?receivedInput=${this.searchName}`;
+      console.log("entraSport")
+      const url = `https://localhost:8080/Bars/shows/sport?sport=${this.searchSport}`;
       try {
         await axios.get(url)
           .then((response) => {
             console.log(this.setLocations)
-            localStorage.setItem('nameSearch', JSON.stringify(response.data))
+            localStorage.setItem('sportSearch', JSON.stringify(response.data))
             if (!isRedirected.value) {
               isRedirected.value = true
-              this.$router.push('/names')
+              this.$router.push('/sports')
             }
           });
       } catch (error) {
         console.log(error)
+        this.failedSport = true
       }
     },
     async submitName() {
@@ -73,6 +94,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
+        this.failedName = true
       }
     },
     ...mapMutations(['setLocations']),
@@ -93,6 +115,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
+        this.failedLocation = true;
       }
     }
   },
@@ -131,6 +154,58 @@ h1 {
 
 body {
   overflow: hidden;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(163, 10, 10);
+  color: white;
+  border-radius: 10px;
+  padding: 5px;
+  font-weight: bold;
+  width: 50%;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.shake {
+  animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  10%,
+  90% {
+    transform: translateX(-10px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(10px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-10px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .success-message {
