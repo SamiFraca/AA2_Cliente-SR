@@ -5,7 +5,6 @@ const store = createStore({
   state: {
     isLoggedIn: false,
     user: null,
-    token: null,
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -14,9 +13,6 @@ const store = createStore({
     setUser(state, payload) {
       state.user = payload;
     },
-    setToken(state, payload) {
-      state.token = payload;
-    },
   },
   actions: {
     login(context, credentials) {
@@ -24,10 +20,10 @@ const store = createStore({
         axios
           .post("https://localhost:8080/Users", credentials)
           .then((response) => {
-            console.log(response.data)
+            console.log(response.data);
             const user = response.data.username;
-            console.log(response.data.token)
-            console.log(user)
+            console.log(response.data.token);
+            console.log(user);
             localStorage.setItem("user", JSON.stringify(user));
             context.commit("setUser", user);
             context.commit("setLoggedIn", true);
@@ -41,16 +37,12 @@ const store = createStore({
   },
   getters: {
     isLoggedIn: (state) => {
-      console.log(state.isLoggedIn)
+      console.log(state.isLoggedIn);
       return state.isLoggedIn;
     },
     currentUser: (state) => {
-      console.log(state.user)
+      console.log(state.user);
       return state.user;
-    },
-    currentToken: (state) => {
-      console.log(state.token)
-      return state.token;
     },
   },
 });
