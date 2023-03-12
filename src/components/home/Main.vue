@@ -62,7 +62,7 @@ export default {
     async submitSport() {
       const isRedirected = ref(false);
       console.log("entraSport")
-      const url = `https://localhost:8080/Bars/shows/sport?sport=${this.searchSport}`;
+      const url = `https://localhost:8080/Bars/shows/sports?sport=${this.searchSport}`;
       try {
         await axios.get(url)
           .then((response) => {
@@ -81,7 +81,7 @@ export default {
     async submitName() {
       const isRedirected = ref(false);
       console.log("entraName")
-      const url = `https://localhost:8080/Bars/name?name=${this.searchName}`;
+      const url = `https://localhost:8080/Bars/names?name=${this.searchName}`;
       try {
         await axios.get(url)
           .then((response) => {
