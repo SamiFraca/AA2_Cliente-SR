@@ -3,5 +3,6 @@ import List from "./List.vue";
 import Sign from "./Sign.vue";
 import Login from "./Login.vue";
 import NameList from "./NameList.vue";
+import SportList from "./SportList.vue";
 
-export { Home, List, Sign, Login, NameList };
+export { Home, List, Sign, Login, NameList, SportList };

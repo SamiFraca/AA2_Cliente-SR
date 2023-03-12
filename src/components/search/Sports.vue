@@ -1,12 +1,18 @@
 <template>
     <div class="ml-6">
-        <div v-for="item in names" :key="item.id">
+        <div v-for="item in sports" :key="item.id">
             <div class="flex my-5">
                 <img class="bar-pics" :src="barImages[Math.floor(Math.random() * barImages.length)]">
                 <div class="flex flex-col  ml-6 max-w-lg text-left justify-between">
                     <h1 class="text-xl">{{ item.name }}</h1>
                     <p>Location: {{ item.location }}</p>
                     <p>Capacity: {{ item.capacity }}</p>
+                    <span></span>
+                    <div v-if="!item.shows == 0 || !undefined || !null" class="mt-4 flex flex-col">
+                        <h1>Shows:</h1>
+                        <span class="" v-for="show in item.shows" :key="show.id">{{ show.title }}, {{ show.sport }} -> {{ show.startTime }} to
+                            {{ show.endTime }} </span>
+                    </div>
                     <p class="mt-6">{{ item.description }}</p>
                 </div>
             </div>
@@ -57,6 +63,7 @@ export default {
         const storedData = localStorage.getItem('sportSearch')
         if (storedData) {
             this.sports = JSON.parse(storedData)
+            console.log(this.sports)
         }
         try {
             axios.get(url, { headers }).then(response => {

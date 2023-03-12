@@ -41,16 +41,16 @@ export default {
   methods: {
     async submitSport() {
       const isRedirected = ref(false);
-      console.log("entraName")
-      const url = `https://localhost:8080/Shows/sport?receivedInput=${this.searchName}`;
+      console.log("entraSport")
+      const url = `https://localhost:8080/Bars/shows/sport?sport=${this.searchSport}`;
       try {
         await axios.get(url)
           .then((response) => {
             console.log(this.setLocations)
-            localStorage.setItem('nameSearch', JSON.stringify(response.data))
+            localStorage.setItem('sportSearch', JSON.stringify(response.data))
             if (!isRedirected.value) {
               isRedirected.value = true
-              this.$router.push('/names')
+              this.$router.push('/sports')
             }
           });
       } catch (error) {
