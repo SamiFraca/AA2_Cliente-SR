@@ -1,33 +1,51 @@
 <template>
-  <v-main>
-    <transition name="fade">
-      <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
-    </transition>
-    <transition name="fade">
-      <div v-if="isLogged" class="success-message">Welcome back {{ LoggedUsername }}!</div>
-    </transition>
-    <div class="mt-12">
-      <h1 class="text-5xl">We Serve, You enjoy</h1>
+  <transition name="fade">
+    <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+  </transition>
+  <transition name="fade">
+    <div v-if="isLogged" class="success-message">Welcome back {{ LoggedUsername }}!</div>
+  </transition>
+  <div class="mt-12">
+    <h1 class="text-5xl">We Serve, You enjoy</h1>
+  </div>
+  <div class="sm:flex sm:m-auto mt-8">
+    <div class="m-auto flex flex-col sm:flex-row">
+      <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name" /><input
+        type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location" v-model="searchLocation"
+        @keyup.enter="submitLocation" />
+      <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport" />
     </div>
-    <div class="sm:flex sm:m-auto mt-8">
-      <div class="m-auto flex flex-col sm:flex-row">
-        <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name" /><input
-          type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location" />
-        <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport" />
-      </div>
-    </div>
-    <div><img src="../../assets/GQ_50Greatest_final_v2.webp" class="hidden sm:block"></div>
-  </v-main>
+  </div>
+  <div><img src="../../assets/GQ_50Greatest_final_v2.webp" class="hidden sm:block"></div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
 
   data() {
     return {
       isRegistered: false,
       isLogged: false,
-      LoggedUsername: null
+      LoggedUsername: null,
+      searchLocation: '',
+      bars: []
+    }
+  },
+  methods: {
+    async submitLocation() {
+      console.log("entra")
+      console.log(this.searchLocation)
+      const url = `https://localhost:8080/Bars/locations?receivedInput=${this.searchLocation}`;
+      try {
+        await axios.get(url)
+          .then((response) => {
+            this.bars = response.data
+            console.log(this.bars)
+          });
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   mounted() {
@@ -45,7 +63,7 @@ export default {
       }, 4000);
     }
     if (loggedSuccess === 'true' && loggedUser) {
-       const user = JSON.parse(loggedUser)
+      const user = JSON.parse(loggedUser)
       this.LoggedUsername = user
       this.isLogged = true;
       setTimeout(() => {

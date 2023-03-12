@@ -1,0 +1,14 @@
+<template>
+    <Header />
+  </template>
+  
+  <script>
+  // @ is an alias to /src
+  export default {
+    name: "Header",
+    components: {},
+    methods: {
+    },
+  };
+  </script>
+  
