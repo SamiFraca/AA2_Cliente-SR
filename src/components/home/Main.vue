@@ -53,7 +53,9 @@ export default {
       locations: [],
       searchName: '',
       searchSport: '',
-      failedLocation: false
+      failedLocation: false,
+      failedSport: false,
+      failedName: false,
     }
   },
   methods: {
@@ -73,7 +75,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
-        // failedSport = true
+        this.failedSport = true
       }
     },
     async submitName() {
@@ -92,6 +94,7 @@ export default {
           });
       } catch (error) {
         console.log(error)
+        this.failedName = true
       }
     },
     ...mapMutations(['setLocations']),
@@ -154,17 +157,20 @@ body {
 }
 
 .no-results {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(163, 10, 10);
-  color: white;
-  border-radius: 10px;
-  padding: 5px;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(163, 10, 10);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    font-weight: bold;
+    width: 50%;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .success-message {
