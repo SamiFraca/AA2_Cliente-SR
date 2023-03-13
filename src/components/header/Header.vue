@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-24 align-center flex justify-center align-center justify-between mx-4">
+  <nav class="h-24 align-center flex justify-center align-center justify-between mx-4 sticky">
     <div class="justify-center flex items-center">
       <img src="../../assets/logo.png" style="height:4rem;" class="logo" @click="this.$router.push('/')" />
     </div>

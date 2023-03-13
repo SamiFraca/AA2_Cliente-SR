@@ -25,7 +25,7 @@ const store = createStore({
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
-          .post("https://localhost:8080/Users", credentials)
+          .post("https://watchmeapi-test.azurewebsites.net/Users", credentials)
           .then((response) => {
             console.log(response.data);
             const user = response.data.username;
