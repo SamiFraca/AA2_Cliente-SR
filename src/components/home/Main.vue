@@ -152,9 +152,6 @@ h1 {
   font-family: "Mukta", sans-serif;
 }
 
-body {
-  overflow: hidden;
-}
 
 .no-results {
   display: flex;

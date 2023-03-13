@@ -1,6 +1,8 @@
 <template>
-  <Header />
-  <Main />
+  <div class="back">
+    <Header />
+    <Main />
+  </div>
 </template>
 
 <script>
@@ -8,7 +10,7 @@
 import { Header } from "@/components/header/index.js";
 import Main from "@/components/home/Main.vue";
 import axios from "axios";
-const apiURL = "https://watchmeapi-test.azurewebsites.net"
+const apiURL = "https://watchmeapi-test.azurewebsites.net";
 export default {
   name: "Home",
   components: { Header, Main },
@@ -25,5 +27,8 @@ export default {
 };
 </script>
 <style>
-
+.back {
+  overflow: hidden;
+  height: 100vh;
+}
 </style>

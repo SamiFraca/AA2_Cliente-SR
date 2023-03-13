@@ -1,5 +1,5 @@
 <template>
-    <div class="ml-6">
+    <div class="ml-6 info-div w-full">
         <div v-for="item in locations" :key="item.id">
             <div class="flex my-5">
                 <img class="bar-pics" :src="barImages[Math.floor(Math.random() * barImages.length)]">
@@ -29,7 +29,12 @@
     position: relative;
     height: 30px;
 }
-
+.info-div{
+    overflow-y: auto;
+    position: fixed;
+    top: 6rem;
+    bottom: 12rem;
+}
 .half-border::before {
     content: "";
     position: absolute;
