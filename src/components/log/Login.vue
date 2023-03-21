@@ -30,7 +30,7 @@ export default {
         login() {
             const credentials = {
                 Username: this.Username,
-                password: this.Password
+                Password: this.Password
             }
             this.$store.dispatch('login', credentials)
                 .then(() => {
