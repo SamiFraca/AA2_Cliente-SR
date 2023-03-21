@@ -1,9 +1,13 @@
 <template>
   <transition name="fade">
-    <div v-if="isRegistered" class="success-message">You have successfully registered!</div>
+    <div v-if="isRegistered" class="success-message">
+      You have successfully registered!
+    </div>
   </transition>
   <transition name="fade">
-    <div v-if="isLogged" class="success-message">Welcome back {{ LoggedUsername }}!</div>
+    <div v-if="isLogged" class="success-message">
+      Welcome back {{ LoggedUsername }}!
+    </div>
   </transition>
   <div class="mt-12">
     <h1 class="text-5xl">We Serve, You enjoy</h1>
@@ -11,138 +15,169 @@
   <div class="sm:flex sm:m-auto mt-8">
     <div class="m-auto flex flex-col sm:flex-row">
       <div v-if="failedName">
-        <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
-          v-model="searchName" @keyup.enter="submitName" />
-        <div class="no-results shake">No results found, please try again</div>
-      </div>
-      <div v-else> <input type="text" class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8" placeholder="Name"
-          v-model="searchName" @keyup.enter="submitName" /></div>
-      <div v-if="failedLocation">
-        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
-          v-model="searchLocation" @keyup.enter="submitLocation" />
+        <input
+          type="text"
+          class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8"
+          placeholder="Name"
+          v-model="searchName"
+          @keyup.enter="submitName"
+        />
         <div class="no-results shake">No results found, please try again</div>
       </div>
       <div v-else>
-        <input type="text" class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8" placeholder="Location"
-          v-model="searchLocation" @keyup.enter="submitLocation" />
+        <input
+          type="text"
+          class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8"
+          placeholder="Name"
+          v-model="searchName"
+          @keyup.enter="submitName"
+        />
       </div>
-      <div v-if="failedSport">
-        <input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
-          v-model="searchSport" @keyup.enter="submitSport" />
+      <div v-if="failedLocation">
+        <input
+          type="text"
+          class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8"
+          placeholder="Location"
+          v-model="searchLocation"
+          @keyup.enter="submitLocation"
+        />
         <div class="no-results shake">No results found, please try again</div>
       </div>
-      <div v-else><input type="text" class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8" placeholder="Sport"
-          v-model="searchSport" @keyup.enter="submitSport" /></div>
+      <div v-else>
+        <input
+          type="text"
+          class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8"
+          placeholder="Location"
+          v-model="searchLocation"
+          @keyup.enter="submitLocation"
+        />
+      </div>
+      <div v-if="failedSport">
+        <input
+          type="text"
+          class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8"
+          placeholder="Sport"
+          v-model="searchSport"
+          @keyup.enter="submitSport"
+        />
+        <div class="no-results shake">No results found, please try again</div>
+      </div>
+      <div v-else>
+        <input
+          type="text"
+          class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8"
+          placeholder="Sport"
+          v-model="searchSport"
+          @keyup.enter="submitSport"
+        />
+      </div>
     </div>
   </div>
-  <div><img src="../../assets/GQ_50Greatest_final_v2.webp" class="hidden sm:block"></div>
+  <div>
+    <img
+      src="../../assets/GQ_50Greatest_final_v2.webp"
+      class="hidden sm:block"
+    />
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
-import { mapMutations } from 'vuex';
-import { ref } from 'vue';
+import axios from "axios";
+import { mapMutations } from "vuex";
+import { ref } from "vue";
 export default {
-
   data() {
     return {
       isRegistered: false,
       isLogged: false,
       LoggedUsername: null,
-      searchLocation: '',
+      searchLocation: "",
       locations: [],
-      searchName: '',
-      searchSport: '',
+      searchName: "",
+      searchSport: "",
       failedLocation: false,
       failedSport: false,
       failedName: false,
-    }
+    };
   },
   methods: {
     async submitSport() {
       const isRedirected = ref(false);
-      console.log("entraSport")
+      console.log("entraSport");
       const url = `https://watchmeapi-test.azurewebsites.net/Bars/shows/sports?sport=${this.searchSport}`;
       try {
-        await axios.get(url)
-          .then((response) => {
-            console.log(this.setLocations)
-            localStorage.setItem('sportSearch', JSON.stringify(response.data))
-            if (!isRedirected.value) {
-              isRedirected.value = true
-              this.$router.push('/sports')
-            }
-          });
+        await axios.get(url).then((response) => {
+          console.log(this.setLocations);
+          localStorage.setItem("sportSearch", JSON.stringify(response.data));
+          if (!isRedirected.value) {
+            isRedirected.value = true;
+            this.$router.push("/sports");
+          }
+        });
       } catch (error) {
-        console.log(error)
-        this.failedSport = true
+        console.log(error);
+        this.failedSport = true;
       }
     },
     async submitName() {
       const isRedirected = ref(false);
-      console.log("entraName")
+      console.log("entraName");
       const url = `https://watchmeapi-test.azurewebsites.net/Bars/names?name=${this.searchName}`;
       try {
-        await axios.get(url)
-          .then((response) => {
-            console.log(this.setLocations)
-            localStorage.setItem('nameSearch', JSON.stringify(response.data))
-            if (!isRedirected.value) {
-              isRedirected.value = true
-              this.$router.push('/names')
-            }
-          });
+        await axios.get(url).then((response) => {
+          console.log(this.setLocations);
+          localStorage.setItem("nameSearch", JSON.stringify(response.data));
+          if (!isRedirected.value) {
+            isRedirected.value = true;
+            this.$router.push("/names");
+          }
+        });
       } catch (error) {
-        console.log(error)
-        this.failedName = true
+        console.log(error);
+        this.failedName = true;
       }
     },
-    ...mapMutations(['setLocations']),
+    ...mapMutations(["setLocations"]),
     async submitLocation() {
       const isRedirected = ref(false);
-      console.log("entraLocation")
+      console.log("entraLocation");
       const url = `https://watchmeapi-test.azurewebsites.net/Bars/locations?location=${this.searchLocation}`;
       try {
-        await axios.get(url)
-          .then((response) => {
-            this.setLocations(response.data)
-            console.log(this.setLocations)
-            localStorage.setItem('locationSearch', JSON.stringify(response.data))
-            if (!isRedirected.value) {
-              isRedirected.value = true
-              this.$router.push('/locations')
-            }
-          });
+        await axios.get(url).then((response) => {
+          this.setLocations(response.data);
+          console.log(this.setLocations);
+          localStorage.setItem("locationSearch", JSON.stringify(response.data));
+          if (!isRedirected.value) {
+            isRedirected.value = true;
+            this.$router.push("/locations");
+          }
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         this.failedLocation = true;
       }
-    }
+    },
   },
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
-    const registrationSuccess = urlParams.get('registrationSuccess');
-    const loggedSuccess = urlParams.get("LoginSuccess")
-    const loggedUser = localStorage.getItem("user")
-    console.log(localStorage.getItem("user"))
-    console.log(JSON.parse(loggedUser))
-    console.log(this.LoggedUsername)
-    if (registrationSuccess === 'true') {
+    const registrationSuccess = urlParams.get("registrationSuccess");
+    const loggedSuccess = urlParams.get("LoginSuccess");
+    const loggedUser = localStorage.getItem("username");
+    console.log(loggedUser);
+    if (registrationSuccess === "true") {
       this.isRegistered = true;
       setTimeout(() => {
         this.isRegistered = false;
       }, 4000);
     }
-    if (loggedSuccess === 'true' && loggedUser) {
-      const user = JSON.parse(loggedUser)
-      this.LoggedUsername = user
+    if (loggedSuccess === "true" && loggedUser) {
+      this.LoggedUsername = loggedUser;
       this.isLogged = true;
       setTimeout(() => {
         this.isLogged = false;
       }, 4000);
     }
   },
-
 };
 </script>
 <style>
@@ -151,7 +186,6 @@ export default {
 h1 {
   font-family: "Mukta", sans-serif;
 }
-
 
 .no-results {
   display: flex;
@@ -206,7 +240,7 @@ h1 {
 }
 
 .success-message {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 10px;
   border-radius: 5px;

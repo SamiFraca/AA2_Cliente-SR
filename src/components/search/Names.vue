@@ -1,81 +1,88 @@
 <template>
-    <div class="ml-6">
-        <div v-for="item in names" :key="item.id">
-            <div class="flex my-5">
-                <img class="bar-pics" :src="barImages[Math.floor(Math.random() * barImages.length)]">
-                <div class="flex flex-col  ml-6 max-w-lg text-left justify-between">
-                    <h1 class="text-xl">{{ item.name }}</h1>
-                    <p>Location: {{ item.location }}</p>
-                    <p>Capacity: {{ item.capacity }}</p>
-                    <div v-if="!item.shows == 0 || !undefined || !null" class="mt-4 flex flex-col">
-                        <h1>Shows:</h1>
-                        <span class="" v-for="show in item.shows" :key="show.id">{{ show.title }} -> {{ show.startTime }} to
-                            {{ show.endTime }}</span>
-                    </div>
-                    <p class="mt-6">{{ item.description }}</p>
-                </div>
-            </div>
-            <div class="half-border"></div>
+  <div class="ml-6">
+    <div v-for="item in names" :key="item.id">
+      <div class="flex my-5">
+        <img
+          class="bar-pics"
+          :src="barImages[Math.floor(Math.random() * barImages.length)]"
+        />
+        <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
+          <h1 class="text-xl">{{ item.name }}</h1>
+          <p>Location: {{ item.location }}</p>
+          <p>Capacity: {{ item.capacity }}</p>
+          <div
+            v-if="!item.shows == 0 || !undefined || !null"
+            class="mt-4 flex flex-col"
+          >
+            <h1>Shows:</h1>
+            <span class="" v-for="show in item.shows" :key="show.id"
+              >{{ show.title }} -> {{ show.startTime }} to
+              {{ show.endTime }}</span
+            >
+          </div>
+          <p class="mt-6">{{ item.description }}</p>
         </div>
+      </div>
+      <div class="half-border"></div>
     </div>
+  </div>
 </template>
 <style>
 .bar-pics {
-    height: 15rem;
-    width: 20rem;
+  height: 15rem;
+  width: 20rem;
 }
 
 .half-border {
-    position: relative;
-    height: 30px;
+  position: relative;
+  height: 30px;
 }
 
 .half-border::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transform: translateX(-50%);
-    height: 1px;
-    width: 100%;
-    background-color: rgb(156, 151, 151);
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-50%);
+  height: 1px;
+  width: 100%;
+  background-color: rgb(156, 151, 151);
 }
 </style>
 <script>
 // @ is an alias to /src
 // import { mapGetters } from 'vuex';
-import axios from 'axios';
+import axios from "axios";
 export default {
-    name: "Locations",
-    data() {
-        return {
-            barImages: [],
-            names: []
-        }
-    },
-    components: {},
-    mounted() {
-        const url = 'https://api.pexels.com/v1/search?query=bars&per_page=10';
-        const headers = {
-            Authorization: 'EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx'
-        };
-        const storedData = localStorage.getItem('nameSearch')
-        if (storedData) {
-            this.names = JSON.parse(storedData)
-            console.log(this.names)
-        }
-        try {
-            axios.get(url, { headers }).then(response => {
-                const photos = response.data.photos;
-                console.log(photos)
-                this.barImages = photos.map(photo => photo.src.large);
-                console.log(this.barImages)
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    },
+  name: "Locations",
+  data() {
+    return {
+      barImages: [],
+      names: [],
+    };
+  },
+  components: {},
+  mounted() {
+    const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
+    const headers = {
+      Authorization: "EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx",
+    };
+    const storedData = localStorage.getItem("nameSearch");
+    if (storedData) {
+      this.names = JSON.parse(storedData);
+      console.log(this.names);
+    }
+    try {
+      axios.get(url, { headers }).then((response) => {
+        const photos = response.data.photos;
+        console.log(photos);
+        this.barImages = photos.map((photo) => photo.src.large);
+        console.log(this.barImages);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  beforeUnmount() {localStorage.removeItem("nameSearch")},
 };
-
 </script>
-  

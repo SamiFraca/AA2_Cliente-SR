@@ -6,33 +6,35 @@ const store = createStore({
     isLoggedIn: false,
     user: null,
     locations: [],
+    token: null,
   },
   mutations: {
     setLoggedIn(state, payload) {
       state.isLoggedIn = payload;
     },
-    setUser(state, payload) {
-      state.user = payload;
+    setToken(state, payload) {
+      state.token = payload;
     },
     setLocations(state, payload) {
       state.locations = payload;
     },
   },
   actions: {
-    locations(){
-
-    },
+    locations() {},
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
-          .post("https://watchmeapi-test.azurewebsites.net/Users", credentials)
+          .post(
+            `https://watchmeapi-test.azurewebsites.net/Users/auth/login?name=${credentials.Username}&password=${credentials.Password}`
+          )
           .then((response) => {
             console.log(response.data);
-            const user = response.data.username;
-            console.log(user);
-            localStorage.setItem("user", JSON.stringify(user));
-            context.commit("setUser", user);
+            const token = response.data;
+            console.log(token);
+            localStorage.setItem("username", credentials.Username);
+            sessionStorage.setItem("token", JSON.stringify(token));
             context.commit("setLoggedIn", true);
+            context.commit("setToken", token);
             resolve(response);
           })
           .catch((error) => {
@@ -46,9 +48,12 @@ const store = createStore({
       console.log(state.isLoggedIn);
       return state.isLoggedIn;
     },
-    currentUser: (state) => {
-      console.log(state.user);
-      return state.user;
+    // currentUser: (state) => {
+    //   console.log(state.user);
+    //   return state.user;
+    // },
+    getToken(state) {
+      return state.token;
     },
     getLocations(state) {
       return state.locations;
