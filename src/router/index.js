@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { Home, List, Sign, Login, NameList,SportList } from "../views/index.js";
+import { Home, List, Sign, Login, NameList,SportList , BarDetails} from "../views/index.js";
 
 const routes = [
   {
@@ -32,6 +32,11 @@ const routes = [
     name: "Sport",
     component: SportList,
   },
+  {
+    path: "/details",
+    name: "Details",
+    component: BarDetails,
+  }
 ];
 
 const router = createRouter({
