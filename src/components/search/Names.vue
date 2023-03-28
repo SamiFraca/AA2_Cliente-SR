@@ -7,7 +7,20 @@
           :src="barImages[Math.floor(Math.random() * barImages.length)]"
         />
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
-          <h1 class="text-xl">{{ item.name }}</h1>
+          <h1 class="text-xl">
+            <router-link
+              :to="{
+                name: 'details',
+                params: {
+                  site: 'names',
+                  itemId: item.id,
+                  name: item.name,
+                  imgId: imgIdGenerator,
+                },
+              }"
+              >{{ item.name }}</router-link
+            >
+          </h1>
           <p>Location: {{ item.location }}</p>
           <p>Capacity: {{ item.capacity }}</p>
           <div
@@ -55,13 +68,30 @@
 import axios from "axios";
 export default {
   name: "Locations",
+  imgIdGenerator() {
+    return this.barImages[Math.floor(Math.random() * this.barImages.length)]
+      .split("/")
+      .pop()
+      .split(".")[0]
+      .match(/\d+/g)
+      .join("");
+  },
   data() {
     return {
       barImages: [],
       names: [],
     };
   },
-  components: {},
+  computed: {
+    imgIdGenerator() {
+      return this.barImages[Math.floor(Math.random() * this.barImages.length)]
+        .split("/")
+        .pop()
+        .split(".")[0]
+        .match(/\d+/g)
+        .join("");
+    },
+  },
   mounted() {
     const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
     const headers = {
@@ -83,6 +113,8 @@ export default {
       console.log(error);
     }
   },
-  beforeUnmount() {localStorage.removeItem("nameSearch")},
+  // beforeUnmount() {
+  //   localStorage.removeItem("nameSearch");
+  // },
 };
 </script>

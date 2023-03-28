@@ -4,10 +4,25 @@
       <div class="flex my-5">
         <img
           class="bar-pics"
-          :src="barImages[Math.floor(Math.random() * barImages.length)]"
+          :src="
+            this.barImages[Math.floor(Math.random() * this.barImages.length)]
+          "
         />
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
-          <h1 class="text-xl">{{ item.name }}</h1>
+          <h1 class="text-xl">
+            <router-link
+              :to="{
+                name: 'details',
+                params: {
+                  site: 'sports',
+                  itemId: item.id,
+                  name: item.name,
+                  imgId: imgIdGenerator,
+                },
+              }"
+              >{{ item.name }}</router-link
+            >
+          </h1>
           <p>Location: {{ item.location }}</p>
           <p>Capacity: {{ item.capacity }}</p>
           <span></span>
@@ -28,38 +43,27 @@
     </div>
   </div>
 </template>
-<style>
-.bar-pics {
-  height: 15rem;
-  width: 20rem;
-}
-
-.half-border {
-  position: relative;
-  height: 30px;
-}
-
-.half-border::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translateX(-50%);
-  height: 1px;
-  width: 100%;
-  background-color: rgb(156, 151, 151);
-}
-</style>
 <script>
 // @ is an alias to /src
 // import { mapGetters } from 'vuex';
 import axios from "axios";
 export default {
   name: "Locations",
+  computed: {
+    imgIdGenerator() {
+      return this.barImages[Math.floor(Math.random() * this.barImages.length)]
+        .split("/")
+        .pop()
+        .split(".")[0]
+        .match(/\d+/g)
+        .join("");
+    },
+  },
   data() {
     return {
       barImages: [],
       sports: [],
+      barImage: null,
     };
   },
   components: {},
@@ -84,8 +88,28 @@ export default {
       console.log(error);
     }
   },
-  beforeUnmount() {
-    localStorage.removeItem("sportSearch");
-  },
 };
 </script>
+
+<style>
+.bar-pics {
+  height: 15rem;
+  width: 20rem;
+}
+
+.half-border {
+  position: relative;
+  height: 30px;
+}
+
+.half-border::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-50%);
+  height: 1px;
+  width: 100%;
+  background-color: rgb(156, 151, 151);
+}
+</style>

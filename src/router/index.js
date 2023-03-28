@@ -1,5 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { Home, List, Sign, Login, NameList,SportList , BarDetails} from "../views/index.js";
+import {
+  Home,
+  List,
+  Sign,
+  Login,
+  NameList,
+  SportList,
+  BarDetails,
+} from "../views/index.js";
 
 const routes = [
   {
@@ -16,6 +24,12 @@ const routes = [
     path: "/sign",
     name: "Sign",
     component: Sign,
+  },
+  {
+    path: "/:site/details/:itemId/:imgId/:name",
+    name: "details",
+    component: BarDetails,
+    props: true,
   },
   {
     path: "/login",
@@ -36,7 +50,7 @@ const routes = [
     path: "/details",
     name: "Details",
     component: BarDetails,
-  }
+  },
 ];
 
 const router = createRouter({
