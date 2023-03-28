@@ -4,10 +4,25 @@
       <div class="flex my-5">
         <img
           class="bar-pics"
-          :src="barImages[Math.floor(Math.random() * barImages.length)]"
+          :src="
+            this.barImages[Math.floor(Math.random() * this.barImages.length)]
+          "
         />
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
-          <h1 class="text-xl">{{ item.name }}</h1>
+          <h1 class="text-xl">
+            <router-link
+              :to="{
+                name: 'details',
+                params: {
+                  site: 'locations',
+                  itemId: item.id,
+                  name: item.name,
+                  imgId: imgIdGenerator,
+                },
+              }"
+              >{{ item.name }}</router-link
+            >
+          </h1>
           <p>Location: {{ item.location }}</p>
           <p>Capacity: {{ item.capacity }}</p>
           <div
@@ -27,6 +42,70 @@
     </div>
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+// import { mapGetters } from 'vuex';
+import axios from "axios";
+export default {
+  name: "Locations",
+  data() {
+    return {
+      barImage: null,
+      barImages: [],
+      locations: [],
+    };
+  },
+  components: {},
+
+  computed: {
+    // ...mapGetters(['getLocations'])
+    imgIdGenerator() {
+      return this.barImages[Math.floor(Math.random() * this.barImages.length)]
+        .split("/")
+        .pop()
+        .split(".")[0]
+        .match(/\d+/g)
+        .join("");
+    },
+  },
+  mounted() {
+    const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
+    const headers = {
+      Authorization: "EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx",
+    };
+    const storedData = localStorage.getItem("locationSearch");
+    if (storedData) {
+      this.locations = JSON.parse(storedData);
+      console.log(this.locations);
+    }
+    try {
+      axios.get(url, { headers }).then((response) => {
+        const photos = response.data.photos;
+        console.log(photos);
+        this.barImages = photos.map((photo) => photo.src.large);
+        localStorage.setItem("images", JSON.stringify(photos));
+        this.barImage =
+          this.barImages[Math.floor(Math.random() * this.barImages.length)];
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  methods: {
+    selectedImageId(urlImage) {
+      const url = urlImage;
+      const numberMatcher = /\d+/g;
+      const numbers = url.match(numberMatcher);
+      const desiredNumbers = numbers[0];
+      return desiredNumbers;
+    },
+  },
+  // beforeUnmount() {
+  //   localStorage.removeItem("locationSearch");
+  // },
+};
+</script>
 <style>
 .bar-pics {
   height: 15rem;
@@ -54,47 +133,3 @@
   background-color: rgb(156, 151, 151);
 }
 </style>
-<script>
-// @ is an alias to /src
-// import { mapGetters } from 'vuex';
-import axios from "axios";
-export default {
-  name: "Locations",
-  data() {
-    return {
-      barImage: null,
-      barImages: [],
-      locations: [],
-    };
-  },
-  components: {},
-
-  computed: {
-    // ...mapGetters(['getLocations'])
-  },
-  mounted() {
-    const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
-    const headers = {
-      Authorization: "EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx",
-    };
-    const storedData = localStorage.getItem("locationSearch");
-    if (storedData) {
-      this.locations = JSON.parse(storedData);
-      console.log(this.locations);
-    }
-    try {
-      axios.get(url, { headers }).then((response) => {
-        const photos = response.data.photos;
-        console.log(photos);
-        this.barImages = photos.map((photo) => photo.src.large);
-        console.log(this.barImages);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  beforeUnmount() {
-    localStorage.removeItem("locationSearch");
-  },
-};
-</script>
