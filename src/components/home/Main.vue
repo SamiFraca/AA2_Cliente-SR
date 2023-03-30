@@ -6,7 +6,7 @@
   </transition>
   <transition name="fade">
     <div v-if="isLogged" class="success-message">
-      Welcome back {{ LoggedUsername }}!
+      {{ $t("message.welcome") }} {{ LoggedUsername }}!
     </div>
   </transition>
   <div class="mt-12">
