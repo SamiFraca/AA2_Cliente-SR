@@ -10,7 +10,7 @@
     </div>
   </transition>
   <div class="mt-12">
-    <h1 class="text-5xl">We Serve, You enjoy</h1>
+    <h1 class="text-5xl">{{ $t("message.slogan") }}</h1>
   </div>
   <div class="sm:flex sm:m-auto mt-8">
     <div class="m-auto flex flex-col sm:flex-row">
@@ -18,17 +18,18 @@
         <input
           type="text"
           class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8"
-          placeholder="Name"
+          :placeholder="$t('message.name')"
           v-model="searchName"
           @keyup.enter="submitName"
         />
+
         <div class="no-results shake">No results found, please try again</div>
       </div>
       <div v-else>
         <input
           type="text"
           class="px-8 py-3 border-2 sm:rounded-lg sm:mr-8 sm:mt-8 sm:ml-8"
-          placeholder="Name"
+          :placeholder="$t('message.name')"
           v-model="searchName"
           @keyup.enter="submitName"
         />
@@ -37,7 +38,7 @@
         <input
           type="text"
           class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8"
-          placeholder="Location"
+          :placeholder="$t('message.location')"
           v-model="searchLocation"
           @keyup.enter="submitLocation"
         />
@@ -47,7 +48,7 @@
         <input
           type="text"
           class="px-8 py-3 border-2 rounded-lg sm:mr-8 mt-8"
-          placeholder="Location"
+          :placeholder="$t('message.location')"
           v-model="searchLocation"
           @keyup.enter="submitLocation"
         />
@@ -56,7 +57,7 @@
         <input
           type="text"
           class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8"
-          placeholder="Sport"
+          :placeholder="$t('message.sport')"
           v-model="searchSport"
           @keyup.enter="submitSport"
         />
@@ -66,7 +67,7 @@
         <input
           type="text"
           class="px-8 py-3 border-2 rounded-lg mt-8 sm:w-full md:mt-8"
-          placeholder="Sport"
+          :placeholder="$t('message.sport')"
           v-model="searchSport"
           @keyup.enter="submitSport"
         />

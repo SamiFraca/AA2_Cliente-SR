@@ -2,17 +2,17 @@
   <div class="bg-white w-sign-width h-sign-height relative rounded-lg flex justify-center">
     <form @submit.prevent="submitForm">
       <div class="flex flex-col my-12 justify-center">
-        <input v-model="Username" type="text" placeholder="Username"
+        <input v-model="Username" type="text" :placeholder="$t('message.name')"
           class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg" />
-        <input v-model="Password" type="password" placeholder="Password"
+        <input v-model="Password" type="password" :placeholder="$t('message.password')"
           class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8" />
-        <input v-model="Password2" type="password" placeholder="Re-enter password"
+        <input v-model="Password2" type="password" :placeholder="$t('message.password')"
           class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8" />
         <br>
-        <p v-if="!passwordsMatch" class="flex flex-start">Password doesn't match. Please, try again.</p>
+        <p v-if="!passwordsMatch" class="flex flex-start">{{$t ("message.errorPassword" )}}</p>
         <div class="mt-8 flex">
-          <h3>Are you a bar owner?</h3>
-          <span class="ml-5">Yes
+          <h3>{{ $t("message.barOwner") }}</h3>
+          <span class="ml-5">{{$t("message.yes")}}
             <input type="radio" name="" id="" class="" v-model="selectedOption" value="option1"></span>
           <span class="ml-5">No
             <input type="radio" name="" id="" class="" v-model="selectedOption" value="option2"></span>
@@ -20,7 +20,7 @@
       </div>
       <button class="bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 py-2 rounded" type="submit"
         :disabled="!formValid" :class="{ 'disabled': !formValid }">
-        Register
+        {{$t("message.signIn")}}
       </button>
     </form>
   </div>
