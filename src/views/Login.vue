@@ -9,7 +9,6 @@
 // @ is an alias to /src
 import Login from "@/components/log/Login.vue";
 export default {
-    name: "Sign",
     components: { Login },
     methods: {},
 };

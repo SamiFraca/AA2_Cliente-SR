@@ -4,11 +4,11 @@
       <img src="../../assets/logo.png" style="height:4rem;" class="logo" @click="this.$router.push('/')" />
     </div>
     <div class="justify-center flex justify-between p-8 hidden sm:inline-block">
-      <router-link to="/login" class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">Log
-        In</router-link>
+      <router-link to="/login" class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">
+        {{ $t("message.logIn") }}</router-link>
       <!-- <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"> -->
-      <router-link to="/sign" class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">Sign
-        In</router-link>
+      <router-link to="/sign" class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">{{ $t("message.signIn") }}
+        </router-link>
     </div>
     <div class="self-center mr-8 sm:hidden">
       <png><img src="../../assets/dropdown.png"></png>

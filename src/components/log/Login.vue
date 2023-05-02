@@ -7,20 +7,20 @@
         <input
           v-model="Username"
           type="text"
-          placeholder="Username"
+          :placeholder="$t('message.name')"
           required
-          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg"
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
         />
         <input
           v-model="Password"
           type="password"
-          placeholder="Password"
+          :placeholder="$t('message.password')"
           required
-          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8"
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8 m-0 m-auto"
         />
         <br />
         <div v-if="NoUsernameFound" class="no-results-logger shake">
-          Invalid Username or password, please try again.
+          {{ $t("message.invalid") }}
         </div>
       </div>
       <button
@@ -29,7 +29,7 @@
         :disabled="!formValid"
         :class="{ disabled: !formValid }"
       >
-        Log in
+      {{ $t("message.logIn") }}
       </button>
     </form>
   </div>
@@ -37,7 +37,7 @@
 <script>
 // @ is an alias to /src
 export default {
-  name: "Header",
+  name: "Login",
   data() {
     return {
       Username: "",

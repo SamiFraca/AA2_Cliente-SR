@@ -11,7 +11,7 @@
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
           <h1 class="text-xl">
             <router-link
-              :to="{
+              :to="{ 
                 name: 'details',
                 params: {
                   site: 'locations',
@@ -23,13 +23,13 @@
               >{{ item.name }}</router-link
             >
           </h1>
-          <p>Location: {{ item.location }}</p>
-          <p>Capacity: {{ item.capacity }}</p>
+          <p>{{ $t("message.location") }}: {{ item.location }}</p>
+          <p>{{ $t("message.capacity") }}: {{ item.capacity }}</p>
           <div
             v-if="!item.shows == 0 || !undefined || !null"
             class="mt-4 flex flex-col"
           >
-            <h1>Shows:</h1>
+            <h1>{{ $t("message.events") }}</h1>
             <span class="" v-for="show in item.shows" :key="show.id"
               >{{ show.title }} -> {{ show.startTime }} to
               {{ show.endTime }}</span

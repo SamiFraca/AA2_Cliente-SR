@@ -8,7 +8,7 @@
 // import Header from "@/components/header/Header.vue";
 // @ is an alias to /src
 import Inputs from "@/components/sign/Inputs.vue";
-export default {
+export default{
   name: "Sign",
   components: { Inputs },
   methods: {},
