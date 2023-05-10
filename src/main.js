@@ -24,7 +24,9 @@ const i18n = createI18n({
         password:"Contraseña",
         invalid:"Usuario o contraseña invalido. Porfavor, intentelo de nuevo.",
         events:"Eventos",
-        capacity:"Capacidad"
+        capacity:"Capacidad",
+        closeSession:"Cerrar sesión",
+        account:"Cuenta"
       }
     },
     en: {
@@ -43,7 +45,9 @@ const i18n = createI18n({
         password:"Password",
         invalid:"Invalid Username or password. Please try again.",
         events:"Events",
-        capacity:"Capacidad"
+        capacity:"Capacidad",
+        closeSession:"Logout",
+        account:"Account"
       }
     }
   }
