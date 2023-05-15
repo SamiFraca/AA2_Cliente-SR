@@ -7,6 +7,7 @@ import {
   NameList,
   SportList,
   BarDetails,
+  Profile,
 } from "../views/index.js";
 
 const routes = [
@@ -50,6 +51,11 @@ const routes = [
     path: "/details",
     name: "Details",
     component: BarDetails,
+  },
+  {
+    path: "/account/:itemId",
+    name: "Account",
+    component: Profile,
   },
 ];
 
