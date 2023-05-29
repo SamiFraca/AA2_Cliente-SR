@@ -56,6 +56,9 @@ const routes = [
     path: "/account/:itemId",
     name: "Account",
     component: Profile,
+    // meta: {
+    //   requiresAdmin: true,
+    // },
   },
 ];
 

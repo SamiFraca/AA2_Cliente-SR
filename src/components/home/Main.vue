@@ -6,7 +6,7 @@
   </transition>
   <transition name="fade">
     <div v-if="isLogged" class="success-message">
-      {{ $t("message.welcome") }} {{ LoggedUsername }}!
+      {{ $t("message.welcome") }}!
     </div>
   </transition>
   <div class="mt-12">
@@ -163,16 +163,14 @@ export default {
     const urlParams = new URLSearchParams(window.location.search);
     const registrationSuccess = urlParams.get("registrationSuccess");
     const loggedSuccess = urlParams.get("LoginSuccess");
-    const loggedUser = localStorage.getItem("username");
-    console.log(loggedUser);
     if (registrationSuccess === "true") {
       this.isRegistered = true;
       setTimeout(() => {
         this.isRegistered = false;
       }, 4000);
     }
-    if (loggedSuccess === "true" && loggedUser) {
-      this.LoggedUsername = loggedUser;
+    if (loggedSuccess === "true") {
+      // this.LoggedUsername = token;
       this.isLogged = true;
       setTimeout(() => {
         this.isLogged = false;

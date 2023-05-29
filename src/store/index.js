@@ -36,6 +36,7 @@ const store = createStore({
             const authDecision = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authorizationdecision"];
             const userId = decoded["nameid"];
             sessionStorage.setItem("token", JSON.stringify(token));
+            localStorage.setItem("userId",userId)
             context.commit("setLoggedIn", true);
             context.commit("setToken", token);
             context.commit("setAuthDecision", authDecision); 
