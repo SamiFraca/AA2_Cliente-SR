@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createStore } from "vuex";
-
+const jwt = require('jsonwebtoken')
 const store = createStore({
   state: {
     isLoggedIn: false,
@@ -18,6 +18,9 @@ const store = createStore({
     setLocations(state, payload) {
       state.locations = payload;
     },
+    setUser(state, { userId }) {
+      state.user = { userId };
+    },
   },
   actions: {
     locations() {},
@@ -28,13 +31,16 @@ const store = createStore({
             `https://watchmeapi-test.azurewebsites.net/Users/auth/login?name=${credentials.Username}&password=${credentials.Password}`
           )
           .then((response) => {
-            console.log(response.data);
             const token = response.data;
-            console.log(token);
-            localStorage.setItem("username", credentials.Username);
+            const decoded = jwt.decode(response.data.token);
+            const authDecision = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authorizationdecision"];
+            const userId = decoded["nameid"];
             sessionStorage.setItem("token", JSON.stringify(token));
+            localStorage.setItem("userId",userId)
             context.commit("setLoggedIn", true);
             context.commit("setToken", token);
+            context.commit("setAuthDecision", authDecision); 
+            context.commit("setUser", { userId: userId });
             resolve(response);
           })
           .catch((error) => {
@@ -45,13 +51,14 @@ const store = createStore({
   },
   getters: {
     isLoggedIn: (state) => {
-      console.log(state.isLoggedIn);
       return state.isLoggedIn;
     },
-    // currentUser: (state) => {
-    //   console.log(state.user);
-    //   return state.user;
-    // },
+    getUserId: (state) => {
+      return state.user != null ? state.user.userId : null;
+    },
+    isAdmin(state){
+      return state.authDecision;
+    },
     getToken(state) {
       return state.token;
     },

@@ -7,7 +7,7 @@ import { createI18n } from 'vue-i18n'
 
 const app = createApp(App);
 const i18n = createI18n({
-  locale: 'es', 
+  locale: 'en', 
   messages: {
     es: {
       message: {
@@ -26,7 +26,8 @@ const i18n = createI18n({
         events:"Eventos",
         capacity:"Capacidad",
         closeSession:"Cerrar sesión",
-        account:"Cuenta"
+        account:"Cuenta",
+        hello:"Hola"
       }
     },
     en: {
@@ -47,7 +48,8 @@ const i18n = createI18n({
         events:"Events",
         capacity:"Capacidad",
         closeSession:"Logout",
-        account:"Account"
+        account:"Account",
+        hello:"Hi"
       }
     }
   }

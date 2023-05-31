@@ -7,6 +7,8 @@ import {
   NameList,
   SportList,
   BarDetails,
+  Profile,
+  Admin
 } from "../views/index.js";
 
 const routes = [
@@ -51,6 +53,19 @@ const routes = [
     name: "Details",
     component: BarDetails,
   },
+  {
+    path: "/account/:itemId",
+    name: "Account",
+    component: Profile,
+    // meta: {
+    //   requiresAdmin: true,
+    // },
+  },
+  {
+    path: "/account/:itemId/admin",
+    name: "admin",
+    component: Admin
+  }
 ];
 
 const router = createRouter({

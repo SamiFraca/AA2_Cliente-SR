@@ -1,7 +1,7 @@
 <template>
   <div class="ml-6 info-div w-full">
     <div v-for="item in locations" :key="item.id">
-      <div class="flex my-5">
+      <div class="flex my-5 rounded-md shadow-sm mb-6 bg-white">
         <img
           class="bar-pics"
           :src="
@@ -35,10 +35,9 @@
               {{ show.endTime }}</span
             >
           </div>
-          <p class="mt-6">{{ item.description }}</p>
+          <p class="mt-6 mb-6">{{ item.description }}</p>
         </div>
       </div>
-      <div class="half-border"></div>
     </div>
   </div>
 </template>
@@ -118,7 +117,6 @@ export default {
 }
 .info-div {
   overflow-y: auto;
-  position: fixed;
   top: 6rem;
   bottom: 12rem;
 }
