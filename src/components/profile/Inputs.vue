@@ -1,36 +1,13 @@
 <template>
-  <div class="flex flex-col md:flex-row  mx-auto">
-    <div
-      class="md:flex md:flex-col md:p-4  md:shadow-sm md:mr-4 md:border-r md:border-logo-border-sidebar"
-    >
-      <ul class="flex md:flex-col justify-center mt-6">
-        <li class="active-link md:border-l-2 md:border-blue-500 mb-6">
-          <a
-            href="#"
-            class="text-m font-medium hover:text-blue-700 text-logo-color border-r  md:border-0 py-2 px-2 bg-white"
-          >
-            My account
-          </a>
-        </li>
-        <li v-if="userData.myBar">
-          <a
-            href="#"
-            class="text-m font-medium hover:text-gray-800 py-2 px-2 rounded-md"
-          >
-            Administrate
-          </a>
-        </li>
-      </ul>
-    </div>
+  <div class="flex flex-col md:flex-row mx-auto">
+    <SideMenu activeLink="account" />
     <div class="flex flex-col p-4 max-w-5xl mx-auto text-left justify-start">
-      <h1 class="text-4xl mb-4 ml-4">
+      <h1 class="text-4xl mb-4 ml-4 mt-8">
         {{ $t("message.hello") }} {{ userData.username }}
       </h1>
       <div class="flex flex-col rounded-md shadow-sm bg-white p-6">
         <h2 class="text-2xl font-bold mb-4">Account details</h2>
-        <div
-          class="flex flex-row mb-6 md:gap-20 justify-start"
-        >
+        <div class="flex flex-row mb-6 md:gap-20 justify-start">
           <div class="flex flex-col">
             <h3 class="text-lg font-bold mb-2">Username</h3>
             <h4 class="text-gray-500">{{ userData.username }}</h4>
@@ -68,19 +45,25 @@
       </div>
       <div class="mt-6">
         <h2 class="text-2xl font-bold mb-4 ml-4">Your establishments</h2>
-        <div class="flex flex-col  bg-white p-6 text-left">
-          <div class="md:flex-row flex-col flex">
-            <img v-if="this.userData.myBar" src="https://placehold.co/300x250" />
-            <div v-if="this.userData.myBar" class="ml-4 mt-2 md:mt-0">
-              <h3 class="text-lg font-bold mb-2">Name</h3>
-              <p>{{ this.userData.myBar.name }}</p>
-              <h3 class="text-lg font-bold mt-4 mb-2">Location</h3>
-              <p>{{ this.userData.myBar.location }}</p>
-              <h3 class="text-lg font-bold mt-4 mb-2">Description</h3>
-              <p class="text-gray-500">{{ this.userData.myBar.description }}</p>
-            </div>
-            <div class="justify-center flex" v-else>
-              <p class="text-center justify-center">You don't have any registered establishments</p>
+        <div class="flex flex-col bg-white p-6 text-left">
+          <div class="flex-col flex">
+            <div v-for="bars in this.userBars" :key="bars.id" class="flex mb-8">
+              <img v-if="bars" src="https://placehold.co/300x250" />
+              <div v-if="bars" class="ml-4 mt-2 md:mt-0">
+                <h3 class="text-lg font-bold mb-2">Name</h3>
+                <p>{{ bars.name }}</p>
+                <h3 class="text-lg font-bold mt-4 mb-2">Location</h3>
+                <p>{{ bars.location }}</p>
+                <h3 class="text-lg font-bold mt-4 mb-2">Description</h3>
+                <p class="text-gray-500">
+                  {{ bars.description }}
+                </p>
+              </div>
+              <div class="justify-center flex" v-else>
+                <p class="text-center justify-center">
+                  You don't have any registered establishments
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -91,6 +74,7 @@
 
 <script>
 import axios from "axios";
+import SideMenu from "@/components/profile/SideMenu.vue";
 export default {
   data() {
     return {
@@ -99,15 +83,18 @@ export default {
       userData: {
         username: localStorage.getItem("username") || "",
       },
+      userBars:null,
       isMenuOpen: false,
     };
   },
+  components:{SideMenu},
   async mounted() {
     this.userId = localStorage.getItem("userId");
     this.tokenObject = JSON.parse(sessionStorage.getItem("token"));
     const tokenValue = this.tokenObject.token;
     // console.log(this.userId);
     // console.log(tokenValue);
+
     if (this.tokenObject) {
       const url = `https://watchmeapi-test.azurewebsites.net/Users/${this.userId}?token=${tokenValue}`;
       try {
@@ -123,6 +110,17 @@ export default {
       this.sessionStorage.removeItem("token");
       this.$router.push("/login");
     }
+    if (this.tokenObject) {
+      const url = `https://watchmeapi-test.azurewebsites.net/Bars/User?UserId=${this.userId}`;
+      try {
+        const response = await axios.get(url);
+        this.userBars = response.data
+        console.log(this.userBars)
+        localStorage.setItem("Bars", this.userBars);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
 };
 </script>
@@ -134,7 +132,7 @@ export default {
 .active-link::before {
   border-left: 2px;
 }
-.m-0-auto{
+.m-0-auto {
   margin: 0 auto;
 }
 </style>
