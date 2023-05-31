@@ -8,6 +8,7 @@ import {
   SportList,
   BarDetails,
   Profile,
+  Admin
 } from "../views/index.js";
 
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
     //   requiresAdmin: true,
     // },
   },
+  {
+    path: "/account/:itemId/admin",
+    name: "admin",
+    component: Admin
+  }
 ];
 
 const router = createRouter({
