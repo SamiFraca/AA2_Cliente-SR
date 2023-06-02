@@ -29,13 +29,15 @@
         :disabled="!formValid"
         :class="{ disabled: !formValid }"
       >
-      {{ $t("message.logIn") }}
+        <span v-if="!this.isLoading"><Loader /></span>
+        <span v-else> {{ $t("message.logIn") }}</span>
       </button>
     </form>
   </div>
 </template>
 <script>
 // @ is an alias to /src
+import Loader from "@/components/loader/Loader.vue";
 export default {
   name: "Login",
   data() {
@@ -43,23 +45,29 @@ export default {
       Username: "",
       Password: "",
       NoUsernameFound: false,
+      isLoading: true,
     };
   },
-  components: {},
+  components: { Loader },
   methods: {
     login() {
       const credentials = {
         Username: this.Username,
         Password: this.Password,
+        isLoading: null,
       };
       this.$store
         .dispatch("login", credentials)
         .then(() => {
           this.$router.push({ name: "Home", query: { LoginSuccess: true } });
+          this.isLoading = true;
         })
         .catch((error) => {
           console.log(error);
           this.NoUsernameFound = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },

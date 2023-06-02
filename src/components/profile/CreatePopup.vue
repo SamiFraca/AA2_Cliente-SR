@@ -1,11 +1,14 @@
 <template>
   <div
-    class="bg-white w-login-width h-login-height relative rounded-lg flex justify-center items-center flex-col"
+    class="bg-white w-full h-full sm:w-sign-width sm:h-sign-height relative rounded-lg flex justify-center items-center flex-col"
   >
-    <span class="cancel-icon flex self-end mr-8 cursor-pointer" @click="Close"></span>
+    <span
+      class="cancel-icon flex self-end mr-8 cursor-pointer"
+      @click="Close"
+    ></span>
 
     <form @submit.prevent="create">
-      <div class="flex flex-col my-12 justify-center">
+      <div class="flex flex-col justify-center">
         <input
           v-model="Name"
           type="text"
@@ -14,65 +17,96 @@
           class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
         />
         <input
-          v-model="Locatiom"
-          type="Location"
-          :placeholder="$t('message.location')"
+          v-model="Country"
+          type="text"
+          :placeholder="$t('message.country')"
           required
           class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8 m-0 m-auto"
         />
+        <input
+          v-model="City"
+          type="text"
+          :placeholder="$t('message.city')"
+          required
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8 m-0 m-auto"
+        />
+        <input
+          v-model="Address"
+          type="text"
+          :placeholder="$t('message.address')"
+          required
+          class="border-solid h-16 w-96 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg mt-8 m-0 m-auto"
+        />
+        <div class="mt-4">
+          <h3 class="mb-4">Upload an image for your bar</h3>
+          <input type="file" ref="fileInput" @change="handleFileChange" />
+        </div>
         <br />
       </div>
       <button
-        class="bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 py-2 rounded"
+        class="bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 py-2 rounded flex mx-auto"
         type="submit"
-        :disabled="!formValid"
-        :class="{ disabled: !formValid }"
+        @click="CreateBarRequest"
       >
-        {{ $t("message.logIn") }}
+        {{ $t("message.create") }}
       </button>
     </form>
   </div>
 </template>
 <script>
-// @ is an alias to /src
+import axios from "axios";
 export default {
-  name: "Login",
+  name: "CreateBarPopup",
   data() {
     return {
       Name: "",
       Location: "",
-      Description: "",
+      City: "",
       close: false,
+      Address: "",
+      Country: "",
+      file: null,
     };
   },
-  props: {},
-  components: {},
   methods: {
-    postBar() {
-      const credentials = {
-        Name: this.name,
-        Password: this.Password,
-      };
-      this.$store
-        .dispatch("login", credentials)
-        .then(() => {
-          this.$router.push({ name: "Home", query: { LoginSuccess: true } });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.NoUsernameFound = true;
-        });
+    handleFileChange(event) {
+      this.file = event.target.files[0];
     },
     Close() {
       this.close = false;
       const closeValue = this.close;
-      console.log("dkasdkds")
+      console.log(this.close);
       this.$emit("close-event", closeValue);
     },
-  },
-  computed: {
-    formValid() {
-      return this.Username && this.Password;
+    async CreateBarRequest() {
+      const formData = new FormData();
+      const userId = localStorage.getItem("userId");
+      
+      if (this.file) {
+        formData.append("imageFile", this.file);
+      } else {
+        formData.append("imageFile", "null");
+      }
+      // Append the form fields
+      const result = [this.Address, this.City, this.Country].join(" ");
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      try {
+        const response = await axios.post(
+          `https://watchmeapi-test.azurewebsites.net/Bars?name=${this.Name}&location=${result}&capacity=0&description=none&userId=${userId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        console.log(response.data); // Handle the response
+      } catch (error) {
+        console.error(error); // Handle the error
+      }
     },
   },
 };
