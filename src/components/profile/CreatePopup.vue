@@ -81,19 +81,19 @@ export default {
     async CreateBarRequest() {
       const formData = new FormData();
       const userId = localStorage.getItem("userId");
-      
+
       if (this.file) {
         formData.append("imageFile", this.file);
       } else {
         formData.append("imageFile", "null");
       }
       // Append the form fields
-      const result = [this.Address, this.City, this.Country].join(" ");
+      const result = [this.Address, this.City, this.Country].join(", ");
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
       try {
-        const response = await axios.post(
+        await axios.post(
           `https://watchmeapi-test.azurewebsites.net/Bars?name=${this.Name}&location=${result}&capacity=0&description=none&userId=${userId}`,
           formData,
           {
@@ -102,8 +102,7 @@ export default {
             },
           }
         );
-
-        console.log(response.data); // Handle the response
+        this.Close();
       } catch (error) {
         console.error(error); // Handle the error
       }
