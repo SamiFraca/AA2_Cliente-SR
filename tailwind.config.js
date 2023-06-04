@@ -15,6 +15,7 @@ module.exports = {
         "sign-width": "30rem",
         "login-height": "25rem",
         "login-width": "30rem",
+        "width-delete":"23rem"
       },
     },
     container: {
