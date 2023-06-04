@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createStore } from "vuex";
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 const store = createStore({
   state: {
     isLoggedIn: false,
@@ -24,6 +24,18 @@ const store = createStore({
   },
   actions: {
     locations() {},
+    deleteBar(context, id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`https://watchmeapi-test.azurewebsites.net/Bars/${id}`)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
@@ -33,13 +45,16 @@ const store = createStore({
           .then((response) => {
             const token = response.data;
             const decoded = jwt.decode(response.data.token);
-            const authDecision = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authorizationdecision"];
+            const authDecision =
+              decoded[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/authorizationdecision"
+              ];
             const userId = decoded["nameid"];
             sessionStorage.setItem("token", JSON.stringify(token));
-            localStorage.setItem("userId",userId)
+            localStorage.setItem("userId", userId);
             context.commit("setLoggedIn", true);
             context.commit("setToken", token);
-            context.commit("setAuthDecision", authDecision); 
+            context.commit("setAuthDecision", authDecision);
             context.commit("setUser", { userId: userId });
             resolve(response);
           })
@@ -56,7 +71,7 @@ const store = createStore({
     getUserId: (state) => {
       return state.user != null ? state.user.userId : null;
     },
-    isAdmin(state){
+    isAdmin(state) {
       return state.authDecision;
     },
     getToken(state) {
