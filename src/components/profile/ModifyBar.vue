@@ -3,7 +3,7 @@
     <p
       v-if="!editMode.name"
       @click="enableEditMode('name')"
-      class="text-5xl font-semibold mt-8 py-2 edit-icon"
+      class="text-5xl font-semibold mt-8 py-2 edit-icon ml-12 md:ml-0"
     >
       {{ this.bar.name }}
     </p>
@@ -15,13 +15,13 @@
       @keyup.enter="disableEditMode('name')"
       class="text-5xl font-semibold mt-8"
     />
-    <div class="flex flex-row mt-8 items-start w-full">
+    <div class="flex md:flex-row mt-8 items-start w-full flex-col ml-12 md:ml-0">
       <div class="flex flex-col mb-8">
         <img v-if="bar.imageUrl" :src="bar.imageUrl" class="img-size" />
         <img v-else src="../../assets/logo.png" class="img-size border" />
         <button
           type="button"
-          class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-1/2 mt-8"
+          class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 md:w-1/2 mt-8"
           @click="showFormImage = !showFormImage"
         >
           Update image
@@ -66,7 +66,7 @@
           @keyup.enter="disableEditMode('capacity')"
           class="text-lg font-semibold mt-2 py-2"
         />
-        <h2 class="font-medium text-lg">{{ $t("message.capacity") }}</h2>
+        <h2 class="font-medium text-lg">{{ $t("message.description") }}</h2>
         <p
           v-if="!editMode.description"
           @click="enableEditMode('description')"
@@ -80,12 +80,60 @@
           v-model="this.bar.description"
           @blur="disableEditMode('description')"
           @keyup.enter="disableEditMode('description')"
-          class="text-lg font-semibold mt-2 py-2 w-9/12"
-
+          class="text-lg font-semibold mt-2 mb-4 py-2 w-9/12"
         />
         <!-- :maxlength="maxCharacters"
           @input="checkCharacterLimit" -->
         <!-- <p>{{ characterCount }} / {{ maxCharacters }} characters</p> -->
+        <div class="flex flex-row gap-8 items-center text-center">
+          <h2 class="font-medium text-lg">{{ $t("message.shows") }}</h2>
+          <button
+            class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10  w-36 md:w-1/2"
+            @click="showCreateShowForm = !showCreateShowForm"
+          >
+            <span v-if="!showCreateShowForm">Create Show</span>
+            <span v-else>Cancel</span>
+          </button>
+        </div>
+        <div v-if="showCreateShowForm" class="mt-8 flex flex-col items-start gap-4">
+          <input
+            type="text"
+            placeholder="Name"
+            v-model="newShow.name"
+            class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+          />
+          <h2 class="text-lg font-medium">Start Time</h2>
+          <input
+            type="datetime-local"
+            placeholder=""
+            v-model="newShow.startTime"
+            class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+          />
+          <h2 class="text-lg font-medium">End Time</h2>
+          <input
+            type="datetime-local"
+            placeholder=""
+            v-model="newShow.endTime"
+            class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+          />
+          <input
+            type="text"
+            placeholder="Category"
+            v-model="newShow.category"
+            class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+          />
+          <input
+            type="number"
+            placeholder="Maximum Capacity of event"
+            v-model="newShow.maxCap"
+            class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+          />
+        </div>
+        <div
+          v-if="this.bar.shows != null && bar.shows && bar.shows.length > 0"
+          class="mt-4"
+        ></div>
+        <div class="mt-4" v-else>No actual shows for this bar</div>
       </div>
     </div>
   </div>
@@ -112,6 +160,15 @@ export default {
       showFormImage: false,
       maxCharacters: 150,
       characterCount: 0,
+      showCreateShowForm: false,
+      newShow: {
+        name: "",
+        startTime:null,
+        endTime:null,
+        category:'',
+        maxCap:0,
+        actualCap:0
+      },
     };
   },
   components: { UpdateImage },
@@ -126,7 +183,6 @@ export default {
       try {
         await this.$store.dispatch("getBar", this.barId);
         this.bar = this.$store.state.bar;
-        this.defaultName = this.$store.state.bar.name;
       } catch (error) {
         console.log(error);
       }
@@ -167,6 +223,7 @@ export default {
     closeEvent(value) {
       this.showFormImage = value;
     },
+
     // checkCharacterLimit() {
     //   this.characterCount = this.text.length;
     //   console.log(this.text.length)
