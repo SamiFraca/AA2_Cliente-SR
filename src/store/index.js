@@ -7,8 +7,8 @@ const store = createStore({
     user: null,
     locations: [],
     token: null,
-    modify:false,
-    bar:null
+    modify: false,
+    bar: null,
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -23,12 +23,12 @@ const store = createStore({
     setUser(state, { userId }) {
       state.user = { userId };
     },
-    setModify(state,payload){
+    setModify(state, payload) {
       state.modify = payload;
     },
-    setBar(state,payload){
+    setBar(state, payload) {
       state.bar = payload;
-    }
+    },
   },
   actions: {
     locations() {},
@@ -50,13 +50,34 @@ const store = createStore({
           .get(`https://watchmeapi-test.azurewebsites.net/Bars/${id}`)
           .then((response) => {
             resolve(response);
-            context.commit("setBar",response.data)
-            localStorage.setItem("Bar",JSON.stringify(response.data))
+            context.commit("setBar", response.data);
+            localStorage.setItem("Bar", JSON.stringify(response.data));
           })
           .catch((error) => {
             reject(error);
           });
       });
+    },
+    UpdateImage(context, payload) {
+      const { formData, barId } = payload;
+      try {
+        return new Promise((resolve, reject) => {
+          axios
+            .put(
+              `https://watchmeapi-test.azurewebsites.net/Image?id=${barId}`,
+              formData
+            )
+            .then((response) => {
+              resolve(response);
+              context.commit("setBar", response.data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     modifyBar(context, id) {
       return new Promise((resolve, reject) => {
@@ -64,7 +85,7 @@ const store = createStore({
           .put(`https://watchmeapi-test.azurewebsites.net/Bars/${id}`)
           .then((response) => {
             resolve(response);
-            context.commit("setmodify",true)
+            context.commit("setModify", true);
           })
           .catch((error) => {
             reject(error);
@@ -115,9 +136,9 @@ const store = createStore({
     getLocations(state) {
       return state.locations;
     },
-    getBar(state){
+    getBar(state) {
       return state.bar;
-    }
+    },
   },
 });
 

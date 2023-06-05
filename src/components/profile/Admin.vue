@@ -38,7 +38,7 @@
                 <img
                   v-if="bars && !bars.imageUrl"
                   src="../../assets/logo.png"
-                  class="md:absolute top-0 img-size border"
+                  class="md:absolute top-0 img-size img-default  border"
                 />
                 <img
                   v-else
@@ -228,7 +228,10 @@ export default {
 .img-size {
   width: 300px;
   height: 250px;
-  object-fit: contain;
+  object-fit: cover;
+}
+.img-default{
+  object-fit: contain !important;
 }
 
 .pl-300 {

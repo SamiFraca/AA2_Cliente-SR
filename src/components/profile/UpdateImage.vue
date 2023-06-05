@@ -20,37 +20,37 @@
         <div class="mt-8 flex gap-4 justify-center">
           <button
             class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            @click="updateImageRequest"
           >
             Update
           </button>
-          <button class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 py-2">Cancel</button>
+          <button
+            class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 py-2"
+            @click="Close"
+          >
+            Cancel
+          </button>
         </div>
       </div>
       <br />
     </form>
   </div>
-  <!-- <button
-          class="bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 py-2 rounded flex mx-auto"
-          type="submit"
-          @click="CreateBarRequest"
-        >
-          {{ $t("message.create") }}
-        </button> -->
 </template>
 <script>
-import axios from "axios";
+import { useRoute } from "vue-router";
 export default {
   name: "CreateBarPopup",
   data() {
     return {
-      Name: "",
-      Location: "",
-      City: "",
       close: false,
-      Address: "",
-      Country: "",
       file: null,
+      barId:null
     };
+  },
+  created(){
+    const route = useRoute();
+    const barId = route.params.barId;
+    this.barId = barId;
   },
   methods: {
     handleFileChange(event) {
@@ -62,34 +62,18 @@ export default {
       console.log(this.close);
       this.$emit("close-event", closeValue);
     },
-    async CreateBarRequest() {
+    async updateImageRequest() {
       const formData = new FormData();
-      const userId = localStorage.getItem("userId");
-
-      if (this.file) {
-        formData.append("imageFile", this.file);
-      } else {
-        formData.append("imageFile", "null");
-      }
-      // Append the form fields
-      const result = [this.Address, this.City, this.Country].join(", ");
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      formData.append("file", this.file);
       try {
-        await axios.post(
-          `https://watchmeapi-test.azurewebsites.net/Bars?name=${this.Name}&location=${result}&capacity=0&description=none&userId=${userId}`,
+        await this.$store.dispatch("UpdateImage", {
           formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        this.Close();
-        location.reload();
+          barId: this.barId,
+        });
+        this.Close()
+        location.reload()
       } catch (error) {
-        console.error(error); // Handle the error
+        console.log(error);
       }
     },
   },

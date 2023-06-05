@@ -21,7 +21,7 @@
         <img v-else src="../../assets/logo.png" class="img-size border" />
         <button
           type="button"
-          class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-1/2"
+          class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-1/2 mt-8"
           @click="showFormImage = !showFormImage"
         >
           Update image
@@ -81,7 +81,11 @@
           @blur="disableEditMode('description')"
           @keyup.enter="disableEditMode('description')"
           class="text-lg font-semibold mt-2 py-2 w-9/12"
+
         />
+        <!-- :maxlength="maxCharacters"
+          @input="checkCharacterLimit" -->
+        <!-- <p>{{ characterCount }} / {{ maxCharacters }} characters</p> -->
       </div>
     </div>
   </div>
@@ -106,6 +110,8 @@ export default {
       showText: false,
       showButton: false,
       showFormImage: false,
+      maxCharacters: 150,
+      characterCount: 0,
     };
   },
   components: { UpdateImage },
@@ -161,6 +167,13 @@ export default {
     closeEvent(value) {
       this.showFormImage = value;
     },
+    // checkCharacterLimit() {
+    //   this.characterCount = this.text.length;
+    //   console.log(this.text.length)
+    //   if (this.characterCount > this.maxCharacters) {
+    //     this.text = this.text.substring(0, this.maxCharacters);
+    //   }
+    // },
   },
 };
 </script>
