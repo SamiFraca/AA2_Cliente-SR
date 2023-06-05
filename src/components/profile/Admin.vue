@@ -1,31 +1,50 @@
 <template>
   <div class="flex flex-col md:flex-row mx-auto">
     <SideMenu activeLink="admin" />
-    <div class="flex flex-col p-4 max-w-5xl text-left justify-start w-full mx-auto mt-4">
-      <div class="flex justify-between sm:items-center items-start sm:flex-row flex-col">
+    <div
+      class="flex flex-col p-4 max-w-5xl text-left justify-start w-full mx-auto mt-4"
+    >
+      <div
+        class="flex justify-between sm:items-center items-start sm:flex-row flex-col"
+      >
         <h1 class="text-4xl mb-4 ml-4 mt-4">Your establishments</h1>
         <button
           class="border px-6 h-10 border-blue-400 text-gray-600 hover:bg-blue-400 transition hover:text-white sm:ml-0 ml-6 rounded-md"
-          @click="showForm = !showForm">
+          @click="showForm = !showForm"
+        >
           Create
         </button>
-        <div v-if="showForm"
-          class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-25 transition z-50">
+        <div
+          v-if="showForm"
+          class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-25 transition z-50"
+        >
           <CreatePopup @close-event="closeEvent" />
         </div>
       </div>
       <div class="mt-6">
         <div class="flex flex-col bg-white p-6 text-left">
           <div class="flex-col flex">
-            <div v-for="bars in userBars" :key="bars.id" class="flex flex-col md:flex-row mb-12 relative border-b pb-4">
+            <div
+              v-for="bars in userBars"
+              :key="bars.id"
+              class="flex flex-col md:flex-row mb-12 relative border-b pb-4"
+            >
               <template v-if="isLoading">
                 <div class="flex items-center justify-center h-40">
                   <Loader />
                 </div>
               </template>
               <template v-else>
-                <img v-if="bars && !bars.imageUrl" src="https://placehold.co/300x250" class="md:absolute top-0" />
-                <img v-else :src="bars.imageUrl" class="img-size md:absolute top-0" />
+                <img
+                  v-if="bars && !bars.imageUrl"
+                  src="../../assets/logo.png"
+                  class="md:absolute top-0 img-size border"
+                />
+                <img
+                  v-else
+                  :src="bars.imageUrl"
+                  class="img-size md:absolute top-0"
+                />
                 <div v-if="bars" class="ml-4 mt-2 md:mt-0 pl-300 w-full">
                   <div class="flex justify-between">
                     <div class="flex flex-col">
@@ -33,16 +52,37 @@
                       <p>{{ bars.name }}</p>
                     </div>
                     <div class="flex gap-4">
-                      <button type="button" class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10">
-                        Modify
+                      <button
+                        type="button"
+                        class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10"
+                      >
+                        <router-link
+                          :to="{
+                            name: 'Modify',
+                            params: {
+                              itemId: this.userId,
+                              barId: bars.id
+                            },
+                          }"
+                          >Modify</router-link
+                        >
                       </button>
-                      <button type="button" class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 h-10"
-                        @click="deleteBar(bars)">
+                      <button
+                        type="button"
+                        class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 h-10"
+                        @click="deleteBar(bars)"
+                      >
                         Delete
                       </button>
-                      <div v-if="showDelete"
-                        class="fixed top-0 left-0 right-0 bottom-0 flex items-center bg-opacity-25 justify-center bg-gray-100 bg-opacity-25 transition z-50">
-                        <DeletePopup @close-event-delete="closeEventDelete" :bar="selectedBar" v-if="showDelete" />
+                      <div
+                        v-if="showDelete"
+                        class="fixed top-0 left-0 right-0 bottom-0 flex items-center bg-opacity-25 justify-center bg-gray-100 bg-opacity-25 transition z-50"
+                      >
+                        <DeletePopup
+                          @close-event-delete="closeEventDelete"
+                          :bar="selectedBar"
+                          v-if="showDelete"
+                        />
                       </div>
                     </div>
                   </div>
@@ -51,8 +91,11 @@
                   <h3 class="text-lg font-bold mt-4 mb-2">Description</h3>
                   <p class="text-gray-500">{{ bars.description }}</p>
                   <h3 class="text-lg font-bold mb-2">Shows</h3>
-                  <button type="button" class="bg-blue-600 text-white px-4 rounded-md hover:bg-blue-700 h-10"
-                    @click="toggleSeeMore(bars.id)">
+                  <button
+                    type="button"
+                    class="bg-blue-600 text-white px-4 rounded-md hover:bg-blue-700 h-10"
+                    @click="toggleSeeMore(bars.id)"
+                  >
                     {{ isExpanded(bars.id) ? "Hide" : "See More" }}
                   </button>
                   <div v-if="isExpanded(bars.id)">
@@ -106,7 +149,7 @@ export default {
       seeMore: false,
       expandedBars: [],
       showDelete: false,
-      selectedBarId: null
+      selectedBarId: null,
     };
   },
   components: { CreatePopup, Loader, SideMenu, DeletePopup },
@@ -147,7 +190,7 @@ export default {
       this.showForm = value;
     },
     deleteBar(bars) {
-      console.log("hola")
+      console.log("hola");
       this.selectedBar = bars;
       this.showDelete = !this.showDelete;
     },

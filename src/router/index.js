@@ -8,7 +8,8 @@ import {
   SportList,
   BarDetails,
   Profile,
-  Admin
+  Admin,
+  ModifyBar
 } from "../views/index.js";
 
 const routes = [
@@ -65,6 +66,11 @@ const routes = [
     path: "/account/:itemId/admin",
     name: "admin",
     component: Admin
+  },
+  {
+    path: "/account/:itemId/admin/:barId",
+    name: "Modify",
+    component: ModifyBar
   }
 ];
 
