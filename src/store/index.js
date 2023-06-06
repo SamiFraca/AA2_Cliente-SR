@@ -9,6 +9,7 @@ const store = createStore({
     token: null,
     modify: false,
     bar: null,
+    show: null,
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -28,6 +29,9 @@ const store = createStore({
     },
     setBar(state, payload) {
       state.bar = payload;
+    },
+    setShow(state, payload) {
+      state.show = payload;
     },
   },
   actions: {
@@ -70,6 +74,28 @@ const store = createStore({
             .then((response) => {
               resolve(response);
               context.commit("setBar", response.data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    CreateShow(context, formData) {
+      try {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(`https://watchmeapi-test.azurewebsites.net/Shows`, formData, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            })
+            .then((response) => {
+              resolve(response);
+              context.commit("setShow", response.data);
             })
             .catch((error) => {
               reject(error);
@@ -138,6 +164,9 @@ const store = createStore({
     },
     getBar(state) {
       return state.bar;
+    },
+    getShow(state) {
+      return state.show;
     },
   },
 });

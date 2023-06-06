@@ -99,8 +99,8 @@
                     {{ isExpanded(bars.id) ? "Hide" : "See More" }}
                   </button>
                   <div v-if="isExpanded(bars.id)">
-                    <div v-if="bars.shows && bars.shows.length > 0">
-                      <div v-for="shows in bars.shows" :key="shows.id">
+                    <div v-if="bars.shows && bars.shows.length > 0" class="flex flex-col gap-4 mt-4">
+                      <div v-for="shows in bars.shows" :key="shows.id" class="border p-4">
                         <h3 class="font-bold text-md mt-4">Title</h3>
                         <p>{{ shows.title }}</p>
                         <h3 class="font-bold text-md">Sport / Event type</h3>
