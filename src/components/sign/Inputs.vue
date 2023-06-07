@@ -36,7 +36,7 @@
               id=""
               class=""
               v-model="selectedOption"
-              value="option1"
+              value="true"
           /></span>
           <span class="ml-5"
             >No
@@ -46,7 +46,7 @@
               id=""
               class=""
               v-model="selectedOption"
-              value="option2"
+              value="false"
           /></span>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default {
       Username: "",
       Password: "",
       Password2: "",
-      selectedOption: null,
+      selectedOption: false,
       myBar: null,
     };
   },
