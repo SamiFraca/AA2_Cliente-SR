@@ -48,6 +48,18 @@ const store = createStore({
           });
       });
     },
+    deleteShow(context, id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`https://watchmeapi-test.azurewebsites.net/Shows/${id}`)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
     getBar(context, id) {
       return new Promise((resolve, reject) => {
         axios
@@ -61,6 +73,60 @@ const store = createStore({
             reject(error);
           });
       });
+    },
+    ModifyBar(context,payload){
+      const { patchOperations, barId } = payload;
+       console.log(patchOperations)
+      try {
+        return new Promise((resolve, reject) => {
+          axios
+            .patch(
+              `https://watchmeapi-test.azurewebsites.net/BarPatch/${barId}`,
+              patchOperations,
+              {
+                headers: {
+                  "Content-Type": "application/json-patch+json",
+                },
+              }
+            )
+            .then((response) => {
+              resolve(response);
+              context.commit("setBar", response.data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    UpdateShow(context, payload) {
+      const { formData, id } = payload;
+      try {
+        return new Promise((resolve, reject) => {
+          axios
+            .put(
+              `https://watchmeapi-test.azurewebsites.net/Shows/${id}`,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              }
+            )
+            .then((response) => {
+              resolve(response);
+              context.commit("setShow", response.data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
     },
     UpdateImage(context, payload) {
       const { formData, barId } = payload;
@@ -118,6 +184,7 @@ const store = createStore({
           });
       });
     },
+
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
