@@ -6,7 +6,7 @@
         <p
           v-if="!editMode.name"
           @click="enableEditMode('name')"
-          class="text-5xl font-semibold mt-8 py-2 edit-icon ml-12"
+          class="text-5xl font-semibold mt-8 py-2 edit-icon ml-12 md:gap-0 gap-4"
         >
           {{ this.bar.name }}
         </p>
@@ -78,11 +78,11 @@
             @keyup.enter="disableEditMode('capacity')"
             class="text-lg font-semibold mt-2 py-2 h-small-input-height"
           />
-          <h2 class="font-medium text-lg">{{ $t("message.description") }}</h2>
+          <h2 class="font-medium text-lg text-start">{{ $t("message.description") }}</h2>
           <p
             v-if="!editMode.description"
             @click="enableEditMode('description')"
-            class="text-lg font-semibold mt-2 py-2 edit-icon flex overflow-hidden whitespace-nowrap"
+            class="text-lg font-semibold mt-2 py-2 edit-icon flex text-start"
           >
             {{ this.bar.description }}
           </p>
@@ -442,6 +442,7 @@ export default {
       formData.append("actualCap", updatedActualCapacity);
       // formData.append("actualCap", this.newShow);
       console.log(updatedActualCapacity);
+      // console.log(this.editShow.start);
       // const formDataArray = Array.from(formData);
       console.log(JSON.stringify(formData));
       this.$store
@@ -450,7 +451,7 @@ export default {
           id: updateShowId,
         })
         .then(() => {
-          location.reload();
+           location.reload();
         })
         .catch((error) => {
           console.log(error);

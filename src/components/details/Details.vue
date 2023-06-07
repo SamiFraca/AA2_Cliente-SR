@@ -1,45 +1,82 @@
 <template>
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+  <div class="max-w-5xl mx-auto flex mt-8 text-left">
     <img
-      :src="imageSrc"
-      class="h-64 w-full object-cover rounded-t-lg shadow-lg"
+      :src="this.retrievedInfo.imageUrl"
+      class="w-full object-cover rounded-md bar-pics"
     />
-    <div class="p-4">
+    <div class="ml-8 flex flex-col gap-4 w-full">
       <h2 class="text-xl font-semibold">{{ this.retrievedInfo.name }}</h2>
-      <p class="text-gray-600">{{ this.retrievedInfo.location }}</p>
-      <p class="text-gray-600">Capacity: {{ this.retrievedInfo.capacity }}</p>
-      <p class="text-gray-600">{{ this.retrievedInfo.description }}</p>
-      <button
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4"
-      >
-        Reserve
-      </button>
-      <button
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4 ml-2"
-      >
-        Food
-      </button>
+      <p>Location: {{ this.retrievedInfo.location }}</p>
+      <p>Capacity: {{ this.retrievedInfo.capacity }}</p>
+      <p>{{ this.retrievedInfo.description }}</p>
+      <h2 class="text-lg font-medium border-b pb-2">Shows</h2>
+      <div v-if="this.retrievedInfo.shows.length > 0">
+        <div
+          v-for="shows in this.retrievedInfo.shows"
+          :key="shows.id"
+          class="flex flex-col gap-4 border p-4 rounded-md mb-4"
+        >
+          <h2 class="text-lg text-black">{{ shows.title }}</h2>
+          <h2 class="text-md text-black">Schedule</h2>
+          <p class="text-md text-black">
+            From <span class="font-medium">{{ shows.startTime }}</span> to
+            <span class="font-medium">{{ shows.startTime }}</span>
+          </p>
+          <p>Maximum capacity: {{ shows.maxCap }}</p>
+          <p>Remaining capacity: {{ shows.maxCap - shows.actualCap }}</p>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-4 w-24"
+            @click="updateActualCapRequest(shows.id)"
+          >
+            Reserve
+          </button>
+        </div>
+      </div>
+      <div v-else>No shows available</div>
     </div>
   </div>
 </template>
 
 <script>
-// import { tsThisType } from '@babel/types';
-// import { filter } from 'minimatch';
-
 export default {
   name: "details",
-  computed: {
-    imageSrc() {
-      const imgArray = JSON.parse(localStorage.getItem("images"));
-      const extractImage = imgArray.filter(
-        (url) => url.id === parseInt(this.$route.params.imgId)
-      );
-      const ImageSrc = extractImage[0].src.large;
-      return ImageSrc;
+  data() {
+    return {
+      retrievedInfo: [],
+      name: "",
+      errorCapacity: false,
+    };
+  },
+  methods: {
+    async updateActualCapRequest(updateShowId) {
+      const actualCap = this.retrievedInfo.actualCap + 1;
+      const showId = updateShowId;
+      if (actualCap > this.retrievedInfo.maxCap || !showId) {
+        this.errorCapacity = true;
+        return false;
+      } else {
+        const patchOperation = [
+          {
+            op: "replace",
+            path: "/actualCap",
+            value: actualCap,
+          },
+        ];
+        try {
+          await this.$store.dispatch("UpdateActualCap", {
+            patchOperation,
+            showId,
+          });
+          console.log("yuju");
+        } catch (error) {
+          this.searchError = true;
+          console.log(error);
+        }
+      }
     },
   },
-  mounted() {
+
+  created() {
     if (window.location.href.indexOf("locations") > -1) {
       const locationSearch = localStorage.getItem("locationSearch");
       const locations = JSON.parse(locationSearch);
@@ -47,7 +84,7 @@ export default {
         (location) => location.id === parseInt(this.$route.params.itemId)
       );
       this.retrievedInfo = filterLocation[0];
-      console.log(this.retrievedInfo);
+      console.log(this.retrievedInfo.shows.length);
     }
     if (window.location.href.indexOf("sports") > -1) {
       const nameSearch = localStorage.getItem("sportSearch");
@@ -65,15 +102,8 @@ export default {
         (location) => location.id === parseInt(this.$route.params.itemId)
       );
       this.retrievedInfo = filterLocation[0];
-      console.log(this.retrievedInfo);
+      console.log(this.retrievedInfo.shows.length);
     }
-    console.log(this.imageSrc);
-  },
-  data() {
-    return {
-      retrievedInfo: [],
-      name: "",
-    };
   },
 };
 </script>
@@ -83,6 +113,10 @@ export default {
 
 h1 {
   font-family: "Mukta", sans-serif;
+}
+.bar-pics {
+  height: 15rem;
+  width: 20rem;
 }
 
 .rounded-lg {

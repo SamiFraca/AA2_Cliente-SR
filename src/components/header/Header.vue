@@ -35,14 +35,21 @@
         </defs>
       </svg>
     </div>
-    <div class="relative">
+    <div
+      class="relative"
+      :class="{ 'shake border border-red-600 rounded-md': searchError }"
+    >
       <input
         type="text"
         placeholder="Search establishments...."
-        class="px-2 py-2 border-b w-64"
+        class="px-2 py-2 border-b w-64 hidden md:block"
+        :class="{ 'border-red-600': searchError,'border-logo-color':!searchError }"
+        v-model="this.barName"
+        @keyup.enter="SearchBarNameRequest"
       />
       <i
-        class="fas fa-search absolute right-0 top-2/4 transform -translate-y-2/4 mr-2"
+        class="search-icon absolute right-0 top-2/4 transform -translate-y-2/4 mr-2 cursor-pointer py-2 px-2"
+        @click="SearchBarNameRequest"
       ></i>
     </div>
     <div
@@ -64,7 +71,7 @@
     </div>
     <div
       v-else
-      class="justify-center flex justify-between p-8 sm:inline-block hidden"
+      class="justify-center flex justify-between p-8 sm:inline-block "
     >
       <div
         class="dropdown lg:mr-8 text-start"
@@ -98,33 +105,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="self-center mr-8 md:hidden">
-      <div >
-        <div
-        class="dropdown lg:mr-8 text-start"
-        @click.prevent="toggleDropdown()"
-        ref="dropdown"
-      >
-        <png><img src="../../assets/dropdown.png" /></png>
-        <div v-if="this.token"
-          class="dropdown-content text-left"
-          ref="dropdownContent"
-        >
-          <router-link
-            to="/login"
-            class="block mt-4 lg:inline-block lg:mt-0 text-gray-400 hover:text-gray-700 mr-4"
-          >
-            {{ $t("message.logIn") }}
-          </router-link>
-          <router-link
-            to="/signin"
-            class="block mt-4 lg:inline-block lg:mt-2 text-gray-400 hover:text-gray-700 mr-4"
-          >
-            {{ $t("message.signIn") }}
-          </router-link>
-        </div>
-      </div></div>
-    </div> -->
   </nav>
 </template>
 <style>
@@ -148,29 +128,24 @@
   margin-top: 4px;
   border-radius: 4px;
 }
-/* @media screen and (min-width: 960px) {
-  .dropdown-content {
-    min-width: 180px;
-  }
-} */
+
 .active {
   display: block;
 }
 </style>
 <script>
-// import MobileNotLogged from "./MobileNotLogged.vue"
 import { mapGetters } from "vuex";
 
 export default {
-  components: {
-    // MobileNotLogged
-  },
+  components: {},
   data() {
     return {
       token: null,
       isMobile: false,
       userId: null,
       toggleDropdown: false,
+      barName: "",
+      searchError: false,
     };
   },
   mounted() {
@@ -200,13 +175,26 @@ export default {
         sessionStorage.removeItem("token");
       }
     },
-
-    resize() {
-      this.isMobile = this.isMobileTrigger;
-      console.log(this.isMobileTrigger);
+    async SearchBarNameRequest() {
+      const nameQuery = this.barName;
+      try {
+        await this.$store.dispatch("getBarByName", nameQuery);
+        this.bar = this.$store.state.bar;
+      } catch (error) {
+        this.searchError = true;
+        console.log(error);
+      }
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.search-icon {
+  content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MHB4IiBoZWlnaHQ9IjUwcHgiPjxwYXRoIGQ9Ik0gMjEgMyBDIDExLjYyMTA5NCAzIDQgMTAuNjIxMDk0IDQgMjAgQyA0IDI5LjM3ODkwNiAxMS42MjEwOTQgMzcgMjEgMzcgQyAyNC43MTA5MzggMzcgMjguMTQwNjI1IDM1LjgwNDY4OCAzMC45Mzc1IDMzLjc4MTI1IEwgNDQuMDkzNzUgNDYuOTA2MjUgTCA0Ni45MDYyNSA0NC4wOTM3NSBMIDMzLjkwNjI1IDMxLjA2MjUgQyAzNi40NjA5MzggMjguMDg1OTM4IDM4IDI0LjIyMjY1NiAzOCAyMCBDIDM4IDEwLjYyMTA5NCAzMC4zNzg5MDYgMyAyMSAzIFogTSAyMSA1IEMgMjkuMjk2ODc1IDUgMzYgMTEuNzAzMTI1IDM2IDIwIEMgMzYgMjguMjk2ODc1IDI5LjI5Njg3NSAzNSAyMSAzNSBDIDEyLjcwMzEyNSAzNSA2IDI4LjI5Njg3NSA2IDIwIEMgNiAxMS43MDMxMjUgMTIuNzAzMTI1IDUgMjEgNSBaIi8+PC9zdmc+");
+  width: 40px;
+}
+.search-icon:active {
+  background-color: #057cbe;
+}
+</style>

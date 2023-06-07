@@ -7,6 +7,7 @@ const store = createStore({
     user: null,
     locations: [],
     token: null,
+    barsByName: [],
     modify: false,
     bar: null,
     show: null,
@@ -33,9 +34,27 @@ const store = createStore({
     setShow(state, payload) {
       state.show = payload;
     },
+    setBarsByName(state, payload) {
+      state.barsByName = payload;
+    },
   },
   actions: {
-    locations() {},
+    getBarByName(context, name) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(
+            `https://watchmeapi-test.azurewebsites.net/Bars/names?name=${name}`
+          )
+          .then((response) => {
+            resolve(response);
+            console.log(response.data);
+            context.commit("setBarsByName", response.data);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
     deleteBar(context, id) {
       return new Promise((resolve, reject) => {
         axios
@@ -74,9 +93,9 @@ const store = createStore({
           });
       });
     },
-    ModifyBar(context,payload){
+    ModifyBar(context, payload) {
       const { patchOperations, barId } = payload;
-       console.log(patchOperations)
+      console.log(patchOperations);
       try {
         return new Promise((resolve, reject) => {
           axios
@@ -114,6 +133,33 @@ const store = createStore({
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
+              }
+            )
+            .then((response) => {
+              resolve(response);
+              context.commit("setShow", response.data);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    UpdateActualCap(context, payload) {
+      const { patchOperation, showId } = payload;
+      try {
+        return new Promise((resolve, reject) => {
+          axios
+            .patch(
+              `https://watchmeapi-test.azurewebsites.net/Shows/${showId}`,
+              patchOperation,
+              {
+                headers: {
+                  "Content-Type": "application/json-patch+json",
+                },
+                body: JSON.stringify(patchOperation),
               }
             )
             .then((response) => {
@@ -234,6 +280,9 @@ const store = createStore({
     },
     getShow(state) {
       return state.show;
+    },
+    getBarsByName(state) {
+      return state.barsByName;
     },
   },
 });
