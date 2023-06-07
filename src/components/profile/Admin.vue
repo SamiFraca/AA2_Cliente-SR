@@ -190,7 +190,6 @@ export default {
       this.showForm = value;
     },
     deleteBar(bars) {
-      console.log("hola");
       this.selectedBar = bars;
       this.showDelete = !this.showDelete;
     },

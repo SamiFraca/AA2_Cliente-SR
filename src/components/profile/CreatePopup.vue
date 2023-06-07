@@ -87,11 +87,10 @@ export default {
       } else {
         formData.append("imageFile", "null");
       }
-      // Append the form fields
       const result = [this.Address, this.City, this.Country].join(", ");
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      // for (const [key, value] of formData.entries()) {
+      //   console.log(key, value);
+      // }
       try {
         await axios.post(
           `https://watchmeapi-test.azurewebsites.net/Bars?name=${this.Name}&location=${result}&capacity=0&description=none&userId=${userId}`,
@@ -105,7 +104,7 @@ export default {
         this.Close();
         location.reload();
       } catch (error) {
-        console.error(error); // Handle the error
+        console.error(error); 
       }
     },
   },
