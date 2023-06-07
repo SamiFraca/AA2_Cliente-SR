@@ -26,7 +26,7 @@
           <p>Remaining capacity: {{ shows.maxCap - shows.actualCap }}</p>
           <button
             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-4 w-24"
-            @click="updateActualCapRequest(shows.id)"
+            @click="updateActualCapRequest(shows)"
           >
             Reserve
           </button>
@@ -48,10 +48,11 @@ export default {
     };
   },
   methods: {
-    async updateActualCapRequest(updateShowId) {
-      const actualCap = this.retrievedInfo.actualCap + 1;
-      const showId = updateShowId;
-      if (actualCap > this.retrievedInfo.maxCap || !showId) {
+    async updateActualCapRequest(updateShow) {
+      console.log(updateShow.actualCap);
+      const actualCap = updateShow.actualCap + 1;
+      const showId = updateShow.id;
+      if (actualCap > updateShow.maxCap || showId == null) {
         this.errorCapacity = true;
         return false;
       } else {
@@ -62,6 +63,7 @@ export default {
             value: actualCap,
           },
         ];
+        console.log(patchOperation);
         try {
           await this.$store.dispatch("UpdateActualCap", {
             patchOperation,
