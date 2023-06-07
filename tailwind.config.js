@@ -8,7 +8,9 @@ module.exports = {
         "logo-border-sidebar": "#07a1f6",
         "logo-color": "#057cbe",
         "header-border":"#077bbd9c",
-        "footer-text-color":"#f1f1f6"
+        "footer-text-color":"#f1f1f6",
+        "save-button":"#59d184",
+        "save-button-hover":"#63b981"
       },
       spacing: {
         "sign-height": "35rem",
