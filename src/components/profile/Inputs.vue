@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row mx-auto">
+  <div class="flex flex-col md:flex-row">
     <SideMenu activeLink="account" />
     <div class="flex flex-col p-4 max-w-5xl mx-auto text-left justify-start">
       <h1 class="text-4xl mb-4 ml-4 mt-8">
@@ -37,6 +37,7 @@
             <button
               type="button"
               class="bg-blue-600 text-white px-4 rounded-md hover:bg-blue-700 h-10"
+              id="newsletter_button"
             >
               Save
             </button>
@@ -48,7 +49,8 @@
         <div class="flex flex-col bg-white p-6 text-left">
           <div class="flex-col flex">
             <div v-for="bars in this.userBars" :key="bars.id" class="flex mb-8">
-              <img v-if="bars" src="https://placehold.co/300x250" />
+              <img v-if="bars.imageUrl" :src="bars.imageUrl" class="img-size" />
+              <img v-else src="https://placehold.co/300x250" />
               <div v-if="bars" class="ml-4 mt-2 md:mt-0">
                 <h3 class="text-lg font-bold mb-2">Name</h3>
                 <p>{{ bars.name }}</p>
@@ -83,11 +85,11 @@ export default {
       userData: {
         username: localStorage.getItem("username") || "",
       },
-      userBars:null,
+      userBars: null,
       isMenuOpen: false,
     };
   },
-  components:{SideMenu},
+  components: { SideMenu },
   async mounted() {
     this.userId = localStorage.getItem("userId");
     this.tokenObject = JSON.parse(sessionStorage.getItem("token"));
@@ -114,8 +116,8 @@ export default {
       const url = `https://watchmeapi-test.azurewebsites.net/Bars/User?UserId=${this.userId}`;
       try {
         const response = await axios.get(url);
-        this.userBars = response.data
-        console.log(this.userBars)
+        this.userBars = response.data;
+        console.log(this.userBars);
         localStorage.setItem("Bars", this.userBars);
       } catch (error) {
         console.log(error);
