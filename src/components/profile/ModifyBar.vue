@@ -122,38 +122,38 @@
               type="text"
               placeholder="Name"
               v-model="newShow.title"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
             />
             <h2 class="text-lg font-medium">Start Time</h2>
             <input
               type="datetime-local"
               placeholder=""
               v-model="newShow.start"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
             />
             <h2 class="text-lg font-medium">End Time</h2>
             <input
               type="datetime-local"
               placeholder=""
               v-model="newShow.end"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
             />
             <h2 class="text-lg font-medium">Category</h2>
             <input
               type="text"
               placeholder="Football, volleyball, show.."
               v-model="newShow.sport"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
             />
             <h2 class="text-lg font-medium">Maximum Capacity</h2>
             <input
               type="number"
               placeholder="Maximum Capacity of event"
               v-model="newShow.maxCap"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 m-auto"
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
             />
             <button
-              class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-36 md:w-1/2"
+              class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-36 md:w-32"
               @click="CreateShowRequest"
             >
               Create
