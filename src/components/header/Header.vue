@@ -1,6 +1,7 @@
 <template>
   <nav
-    class="h-24 items-center flex justify-center justify-between mx-4 sticky border-b border-header-border"
+    class="h-24 items-center flex justify-center justify-between border-b border-header-border bg-white w-full px-4 z-index"
+    :class="{ 'fixed': fixed }"
   >
     <div class="justify-center flex items-center">
       <svg
@@ -43,7 +44,10 @@
         type="text"
         placeholder="Search establishments...."
         class="px-2 py-2 border-b w-64 hidden md:block"
-        :class="{ 'border-red-600': searchError,'border-logo-color':!searchError }"
+        :class="{
+          'border-red-600': searchError,
+          'border-logo-color': !searchError,
+        }"
         v-model="this.barName"
         @keyup.enter="SearchBarNameRequest"
       />
@@ -69,10 +73,7 @@
         >{{ $t("message.signIn") }}
       </router-link>
     </div>
-    <div
-      v-else
-      class="justify-center flex justify-between p-8 sm:inline-block "
-    >
+    <div v-else class="justify-center flex justify-between p-8 sm:inline-block">
       <div
         class="dropdown lg:mr-8 text-start"
         @click="toggleDropdown = !toggleDropdown"
@@ -128,7 +129,9 @@
   margin-top: 4px;
   border-radius: 4px;
 }
-
+.z-index {
+  z-index: 999;
+}
 .active {
   display: block;
 }
@@ -138,6 +141,12 @@ import { mapGetters } from "vuex";
 
 export default {
   components: {},
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       token: null,

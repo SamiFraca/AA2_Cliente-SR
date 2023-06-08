@@ -1,19 +1,20 @@
 <template>
-  <div class="back">
-    <Header />
+  <div>
+    <Header :fixed="true" />
     <Main />
+    <Footer />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import { Header } from "@/components/header/index.js";
 import Main from "@/components/home/Main.vue";
+import Footer from "@/components/footer/Footer.vue";
 import axios from "axios";
 const apiURL = "https://watchmeapi-test.azurewebsites.net";
 export default {
   name: "Home",
-  components: { Header, Main },
+  components: { Header, Main, Footer },
   methods: {
     getList() {
       axios.get(`${apiURL}/Users`).then((response) => {
@@ -27,8 +28,4 @@ export default {
 };
 </script>
 <style>
-.back {
-  overflow: hidden;
-  height: 100vh;
-}
 </style>
