@@ -48,7 +48,7 @@
         <h2 class="text-2xl font-bold mb-4 ml-4">Your establishments</h2>
         <div class="flex flex-col bg-white p-6 text-left">
           <div class="flex-col flex">
-            <div v-for="bars in this.userBars" :key="bars.id" class="flex mb-8">
+            <div v-for="bars in this.userBars" :key="bars.id" class="flex mb-8 md:flex-row flex-col">
               <img v-if="bars.imageUrl" :src="bars.imageUrl" class="img-size" />
               <img v-else src="https://placehold.co/300x250" />
               <div v-if="bars" class="ml-4 mt-2 md:mt-0">

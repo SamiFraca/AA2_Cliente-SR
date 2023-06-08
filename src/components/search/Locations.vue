@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-6 info-div w-full">
+  <div class="w-full md:ml-6">
     <div class="flex justify-between mt-8">
       <h1 class="text-2xl text-left">
         Results found for {{ this.searchquery }}
@@ -16,9 +16,9 @@
       </select>
     </div>
     <div v-for="item in filteredItems" :key="item.id">
-      <div class="flex my-5 rounded-md shadow-sm mb-6 bg-white">
+      <div class="flex my-5 rounded-md shadow-sm mb-6 bg-white md:flex-row flex-col ml-6 md:ml-0">
         <img class="bar-pics img-size" :src="item.imageUrl" />
-        <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
+        <div class="flex flex-col  max-w-lg text-left justify-between mt-8 md:mt-0 md:ml-8">
           <h1 class="text-xl">
             <router-link
               :to="{
@@ -111,7 +111,7 @@ export default {
   height: 30px;
 }
 .info-div {
-  overflow-y: auto;
+
   top: 6rem;
   bottom: 12rem;
 }

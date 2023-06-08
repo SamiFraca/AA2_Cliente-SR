@@ -16,9 +16,9 @@
       </select>
     </div>
     <div v-for="item in filteredItems" :key="item.id">
-      <div class="flex my-5">
+      <div class="flex my-5 md:flex-row flex-col rounded-md shadow-sm mb-6 bg-white">
         <img class="bar-pics" :src="item.imageUrl" />
-        <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
+        <div class="flex flex-col ml-6 max-w-lg text-left justify-between mt-8 md:mt-0">
           <h1 class="text-xl underline">
             <router-link
               :to="{
