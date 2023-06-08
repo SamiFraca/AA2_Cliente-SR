@@ -19,6 +19,11 @@
         </select>
       </div>
       <div class="mx-auto md:ml-16 max-w-5xl w-full">
+        <h1 class="align-start text-left mb-4 w-1/2">
+          This chart portrayes a general view for the maximum bar capacity of
+          all the actual shows combined for that specific establishment and compares with
+          the quantity of people who have booked for a show.
+        </h1>
         <canvas class="chart-canvas" ref="chartCanvas"></canvas>
       </div>
     </div>
