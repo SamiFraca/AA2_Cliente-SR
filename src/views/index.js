@@ -8,6 +8,7 @@ import BarDetails from "./BarDetails.vue";
 import Profile from "./Profile.vue";
 import Admin from "./Admin.vue";
 import ModifyBar from "./ModifyBar.vue";
+import Reports from "./Reports.vue";
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   Profile,
   Admin,
   ModifyBar,
+  Reports,
 };

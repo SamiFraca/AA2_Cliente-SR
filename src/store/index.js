@@ -11,6 +11,7 @@ const store = createStore({
     modify: false,
     bar: null,
     show: null,
+    bars: [],
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -36,6 +37,9 @@ const store = createStore({
     },
     setBarsByName(state, payload) {
       state.barsByName = payload;
+    },
+    setBars(state, payload) {
+      state.bars = payload;
     },
   },
   actions: {
@@ -73,6 +77,21 @@ const store = createStore({
           .delete(`https://watchmeapi-test.azurewebsites.net/Shows/${id}`)
           .then((response) => {
             resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    getBars(context, id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(
+            `https://watchmeapi-test.azurewebsites.net/Bars/User?UserId=${id}`
+          )
+          .then((response) => {
+            resolve(response);
+            context.commit("setBars", response.data);
           })
           .catch((error) => {
             reject(error);
@@ -262,6 +281,9 @@ const store = createStore({
   getters: {
     isLoggedIn: (state) => {
       return state.isLoggedIn;
+    },
+    getBars: (state) => {
+      return state.bars;
     },
     getUserId: (state) => {
       return state.user != null ? state.user.userId : null;

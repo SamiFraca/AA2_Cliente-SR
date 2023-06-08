@@ -9,7 +9,8 @@ import {
   BarDetails,
   Profile,
   Admin,
-  ModifyBar
+  ModifyBar,
+  Reports,
 } from "../views/index.js";
 
 const routes = [
@@ -65,13 +66,18 @@ const routes = [
   {
     path: "/account/:itemId/admin",
     name: "admin",
-    component: Admin
+    component: Admin,
   },
   {
     path: "/account/:itemId/admin/:barId",
     name: "Modify",
-    component: ModifyBar
-  }
+    component: ModifyBar,
+  },
+  {
+    path: "/account/:itemId/admin/reports",
+    name: "Reports",
+    component: Reports,
+  },
 ];
 
 const router = createRouter({
