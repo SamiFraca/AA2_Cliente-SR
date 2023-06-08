@@ -27,73 +27,77 @@
         </button>
       </div>
 
-      <div class="flex md:flex-row mt-8 items-start w-full flex-col ml-12">
+      <div class="flex mt-8 items-start w-full flex-col ml-12">
         <div class="flex flex-col mb-8">
-          <img v-if="bar.imageUrl" :src="bar.imageUrl" class="img-size" />
-          <img v-else src="../../assets/logo.png" class="img-size border" />
+          <div class="flex flex-col md:flex-row md:mt-0">
+            <img v-if="bar.imageUrl" :src="bar.imageUrl" class="img-size" />
+            <img v-else src="../../assets/logo.png" class="img-size border" />
+            <div
+              v-if="showFormImage"
+              class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-25 transition z-50"
+            >
+              <UpdateImage @close-event="closeEvent" />
+            </div>
+            <div class="flex flex-col md:ml-16 items-start md:w-1/2 w-full md:m-0 mt-8">
+              <h2 class="font-medium text-lg">{{ $t("message.location") }}</h2>
+              <p
+                v-if="!editMode.location"
+                @click="enableEditMode('location')"
+                class="text-lg font-semibold mt-2 py-2 edit-icon flex text-center"
+              >
+                {{ this.bar.location }}
+              </p>
+              <input
+                v-else
+                ref="locationInput"
+                v-model="this.bar.location"
+                @blur="disableEditMode('location')"
+                @keyup.enter="disableEditMode('location')"
+                class="text-lg font-semibold mt-2 py-2 h-small-input-height"
+              />
+              <h2 class="font-medium text-lg">{{ $t("message.capacity") }}</h2>
+              <p
+                v-if="!editMode.capacity"
+                @click="enableEditMode('capacity')"
+                class="text-lg font-semibold mt-2 py-2 edit-icon flex"
+              >
+                {{ this.bar.capacity }}
+              </p>
+              <input
+                v-else
+                ref="capacityInput"
+                v-model="this.bar.capacity"
+                @blur="disableEditMode('capacity')"
+                @keyup.enter="disableEditMode('capacity')"
+                class="text-lg font-semibold mt-2 py-2 h-small-input-height"
+              />
+              <h2 class="font-medium text-lg">
+                {{ $t("message.description") }}
+              </h2>
+              <p
+                v-if="!editMode.description"
+                @click="enableEditMode('description')"
+                class="text-lg font-semibold mt-2 py-2 edit-icon flex overflow-hidden whitespace-nowrap"
+              >
+                {{ this.bar.description }}
+              </p>
+              <textarea
+                v-else
+                ref="descriptionInput"
+                v-model="this.bar.description"
+                @blur="disableEditMode('description')"
+                @keyup.enter="disableEditMode('description')"
+                class="text-lg font-semibold mt-2 mb-4 py-2 w-9/12 h-small-input-height"
+              />
+            </div>
+          </div>
           <button
             type="button"
-            class="text-black px-4 rounded-md hover:bg-blue-500 hover:text-white border-blue-500 border h-10 md:w-1/2 mt-10 transition"
+            class="text-black px-4 rounded-md hover:bg-blue-500 hover:text-white border-blue-500 border h-10 md:w-48 mb-10 mt-10 transition"
             @click="showFormImage = !showFormImage"
           >
             Update image
           </button>
-          <div
-            v-if="showFormImage"
-            class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-25 transition z-50"
-          >
-            <UpdateImage @close-event="closeEvent" />
-          </div>
-        </div>
-        <div class="flex flex-col md:ml-16 items-start md:w-1/2 w-full m-0">
-          <h2 class="font-medium text-lg">{{ $t("message.location") }}</h2>
-          <p
-            v-if="!editMode.location"
-            @click="enableEditMode('location')"
-            class="text-lg font-semibold mt-2 py-2 edit-icon flex text-center"
-          >
-            {{ this.bar.location }}
-          </p>
-          <input
-            v-else
-            ref="locationInput"
-            v-model="this.bar.location"
-            @blur="disableEditMode('location')"
-            @keyup.enter="disableEditMode('location')"
-            class="text-lg font-semibold mt-2 py-2 h-small-input-height"
-          />
-          <h2 class="font-medium text-lg">{{ $t("message.capacity") }}</h2>
-          <p
-            v-if="!editMode.capacity"
-            @click="enableEditMode('capacity')"
-            class="text-lg font-semibold mt-2 py-2 edit-icon flex"
-          >
-            {{ this.bar.capacity }}
-          </p>
-          <input
-            v-else
-            ref="capacityInput"
-            v-model="this.bar.capacity"
-            @blur="disableEditMode('capacity')"
-            @keyup.enter="disableEditMode('capacity')"
-            class="text-lg font-semibold mt-2 py-2 h-small-input-height"
-          />
-          <h2 class="font-medium text-lg">{{ $t("message.description") }}</h2>
-          <p
-            v-if="!editMode.description"
-            @click="enableEditMode('description')"
-            class="text-lg font-semibold mt-2 py-2 edit-icon flex overflow-hidden whitespace-nowrap"
-          >
-            {{ this.bar.description }}
-          </p>
-          <textarea
-            v-else
-            ref="descriptionInput"
-            v-model="this.bar.description"
-            @blur="disableEditMode('description')"
-            @keyup.enter="disableEditMode('description')"
-            class="text-lg font-semibold mt-2 mb-4 py-2 w-9/12 h-small-input-height"
-          />
           <!-- :maxlength="maxCharacters"
           @input="checkCharacterLimit" -->
           <!-- <p>{{ characterCount }} / {{ maxCharacters }} characters</p> -->
@@ -102,7 +106,7 @@
           >
             <h2 class="font-medium text-lg">{{ $t("message.shows") }}</h2>
             <button
-              class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-36 md:w-1/2"
+              class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-36 md:w-32"
               @click="showCreateShowForm = !showCreateShowForm"
             >
               <span v-if="!showCreateShowForm">Create Show</span>
@@ -155,129 +159,129 @@
               Create
             </button>
           </div>
+        </div>
+        <div
+          v-if="this.bar.shows != null && bar.shows && bar.shows.length > 0"
+          class="mt-4 w-full"
+        >
           <div
-            v-if="this.bar.shows != null && bar.shows && bar.shows.length > 0"
-            class="mt-4 w-full"
+            v-for="shows in this.bar.shows"
+            :key="shows.id"
+            class="flex flex-col gap-2 items-start text-start border mb-4 p-4 rounded-md"
           >
-            <div
-              v-for="shows in this.bar.shows"
-              :key="shows.id"
-              class="flex flex-col gap-2 items-start text-start border mb-4 p-4 rounded-md"
-            >
-              <div class="flex flex-row justify-between w-full">
-                <div
-                  class="flex flex-col text-start items-start"
-                  :class="{ 'w-1/2': editShowMode }"
+            <div class="flex flex-row justify-between w-full">
+              <div
+                class="flex flex-col text-start items-start"
+                :class="{ 'w-1/2': editShowMode }"
+              >
+                <h2 class="text-xl font-medium text-start">Name</h2>
+                <p v-if="!editShowMode || shows.id !== editShowId">
+                  {{ shows.title }}
+                </p>
+                <input
+                  type="text"
+                  class="border rounded-md h-8 w-full mt-2"
+                  v-model="editShow.title"
+                  v-else
+                  placeholder="Name"
+                />
+              </div>
+              <div class="flex gap-4">
+                <button
+                  type="button"
+                  class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10"
+                  @click="toggleEditShowMode(shows.id)"
                 >
-                  <h2 class="text-xl font-medium text-start">Name</h2>
-                  <p v-if="!editShowMode || shows.id !== editShowId">
-                    {{ shows.title }}
-                  </p>
-                  <input
-                    type="text"
-                    class="border rounded-md h-8 w-full mt-2"
-                    v-model="editShow.title"
-                    v-else
-                    placeholder="Name"
+                  <span v-if="!editShowMode || shows.id !== editShowId"
+                    >Modify</span
+                  ><span v-else>Cancel</span>
+                </button>
+                <button
+                  type="button"
+                  class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 h-10"
+                  @click="deleteShow(shows)"
+                >
+                  Delete
+                </button>
+                <div
+                  v-if="showDelete"
+                  class="fixed top-0 left-0 right-0 bottom-0 flex items-center bg-opacity-25 justify-center bg-gray-100 bg-opacity-25 transition z-50"
+                >
+                  <DeleteShow
+                    @close-event-delete="closeEventDelete"
+                    :show="selectedShow"
+                    v-if="showDelete"
                   />
                 </div>
-                <div class="flex gap-4">
-                  <button
-                    type="button"
-                    class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10"
-                    @click="toggleEditShowMode(shows.id)"
-                  >
-                    <span v-if="!editShowMode || shows.id !== editShowId"
-                      >Modify</span
-                    ><span v-else>Cancel</span>
-                  </button>
-                  <button
-                    type="button"
-                    class="bg-red-500 text-white px-4 rounded-md hover:bg-red-700 h-10"
-                    @click="deleteShow(shows)"
-                  >
-                    Delete
-                  </button>
-                  <div
-                    v-if="showDelete"
-                    class="fixed top-0 left-0 right-0 bottom-0 flex items-center bg-opacity-25 justify-center bg-gray-100 bg-opacity-25 transition z-50"
-                  >
-                    <DeleteShow
-                      @close-event-delete="closeEventDelete"
-                      :show="selectedShow"
-                      v-if="showDelete"
-                    />
-                  </div>
-                </div>
               </div>
-              <h2 class="text-xl font-medium">Category</h2>
-              <p v-if="!editShowMode || shows.id !== editShowId">
-                {{ shows.sport }}
-              </p>
-              <input
-                type="text"
-                v-model="editShow.sport"
-                class="border rounded-md h-8 w-1/2 mt-2"
-                v-else
-                placeholder="Category"
-              />
-              <h2 class="text-xl font-medium">Schedule</h2>
-              <p
-                class="text-start w-9/12 flex items-center gap-2"
-                :class="{ 'mb-4': editShowMode }"
-              >
-                Start Time:
-                <span v-if="!editShowMode || shows.id !== editShowId">
-                  {{ shows.startTime }}</span
-                >
-                <input
-                  v-else
-                  v-model="editShow.start"
-                  type="datetime-local"
-                  class="border rounded-md py-1 w-1/2"
-                />
-              </p>
-              <p class="text-start w-9/12 flex items-center gap-3">
-                End Time:
-                <span v-if="!editShowMode || shows.id !== editShowId">
-                  {{ shows.endTime }}</span
-                >
-                <input
-                  v-else
-                  v-model="editShow.end"
-                  type="datetime-local"
-                  class="border rounded-md py-1 w-1/2"
-                />
-              </p>
-              <h2 class="text-xl font-medium">Capacity</h2>
-              <p class="flex items-center gap-1 text-left">
-                <span :class="{ 'w-1/3 md:w-auto': editShowMode }">
-                  Maximum Capacity:</span
-                >
-                <span v-if="!editShowMode || shows.id !== editShowId">{{
-                  shows.maxCap
-                }}</span
-                ><input
-                  v-model="editShow.maxCap"
-                  type="number"
-                  class="border rounded-md h-8 w-1/2"
-                  v-else
-                  placeholder="Number"
-                />
-              </p>
-              <p>Actual Capacity: {{ shows.actualCap }}</p>
-              <button
-                v-if="editShowMode && shows.id == editShowId"
-                type="button"
-                class="bg-save-button text-white px-4 rounded-md hover:bg-save-button-hover h-10 w-20 mt-4"
-                @click="UpdateShowRequest(shows.id, shows.actualCap)"
-              >
-                Save
-              </button>
             </div>
+            <h2 class="text-xl font-medium">Category</h2>
+            <p v-if="!editShowMode || shows.id !== editShowId">
+              {{ shows.sport }}
+            </p>
+            <input
+              type="text"
+              v-model="editShow.sport"
+              class="border rounded-md h-8 w-1/2 mt-2"
+              v-else
+              placeholder="Category"
+            />
+            <h2 class="text-xl font-medium">Schedule</h2>
+            <p
+              class="text-start w-9/12 flex items-center gap-2"
+              :class="{ 'mb-4': editShowMode }"
+            >
+              Start Time:
+              <span v-if="!editShowMode || shows.id !== editShowId">
+                {{ shows.startTime }}</span
+              >
+              <input
+                v-else
+                v-model="editShow.start"
+                type="datetime-local"
+                class="border rounded-md py-1 w-1/2"
+              />
+            </p>
+            <p class="text-start w-9/12 flex items-center gap-3">
+              End Time:
+              <span v-if="!editShowMode || shows.id !== editShowId">
+                {{ shows.endTime }}</span
+              >
+              <input
+                v-else
+                v-model="editShow.end"
+                type="datetime-local"
+                class="border rounded-md py-1 w-1/2"
+              />
+            </p>
+            <h2 class="text-xl font-medium">Capacity</h2>
+            <p class="flex items-center gap-1 text-left">
+              <span :class="{ 'w-1/3 md:w-auto': editShowMode }">
+                Maximum Capacity:</span
+              >
+              <span v-if="!editShowMode || shows.id !== editShowId">{{
+                shows.maxCap
+              }}</span
+              ><input
+                v-model="editShow.maxCap"
+                type="number"
+                class="border rounded-md h-8 w-1/2"
+                v-else
+                placeholder="Number"
+              />
+            </p>
+            <p>Actual Capacity: {{ shows.actualCap }}</p>
+            <button
+              v-if="editShowMode && shows.id == editShowId"
+              type="button"
+              class="bg-save-button text-white px-4 rounded-md hover:bg-save-button-hover h-10 w-20 mt-4"
+              @click="UpdateShowRequest(shows.id, shows.actualCap)"
+            >
+              Save
+            </button>
           </div>
-          <div class="mt-4" v-else>No actual shows for this bar</div>
         </div>
+        <div class="mt-4" v-else>No actual shows for this bar</div>
       </div>
     </div>
   </div>
