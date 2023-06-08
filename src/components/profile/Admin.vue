@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row mx-auto">
+  <div class="flex flex-col md:flex-row">
     <SideMenu activeLink="admin" />
     <div
       class="flex flex-col p-4 max-w-5xl text-left justify-start w-full mx-auto mt-4"
