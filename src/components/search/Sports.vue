@@ -1,13 +1,23 @@
 <template>
   <div class="ml-6">
-    <div v-for="item in sports" :key="item.id">
+    <div class="flex justify-between mt-8">
+      <h1 class="text-2xl text-left">
+        Results found for {{ this.searchquery }}
+      </h1>
+      <select
+        v-model="selectedFilter"
+        class="mr-8 border px-2 py-2 rounded-md border-blue-500"
+      >
+        <option value="0" selected="selected">Select an option</option>
+        <option value="AName">Name A-Z</option>
+        <option value="ZName">Name Z-A</option>
+        <option value="LowCapacity">Low Capacity</option>
+        <option value="HighCapacity">High Capacity</option>
+      </select>
+    </div>
+    <div v-for="item in filteredItems" :key="item.id">
       <div class="flex my-5">
-        <img
-          class="bar-pics"
-          :src="
-            this.barImages[Math.floor(Math.random() * this.barImages.length)]
-          "
-        />
+        <img class="bar-pics" :src="item.imageUrl" />
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
           <h1 class="text-xl">
             <router-link
@@ -17,7 +27,6 @@
                   site: 'sports',
                   itemId: item.id,
                   name: item.name,
-                  imgId: imgIdGenerator,
                 },
               }"
               >{{ item.name }}</router-link
@@ -32,8 +41,9 @@
           >
             <h1>{{ $t("message.events") }}</h1>
             <span class="" v-for="show in item.shows" :key="show.id"
-              >{{ show.title }}, {{ show.sport }} -> {{ show.startTime }} to
-              {{ show.endTime }}
+              >{{ show.title }}, {{ show.sport }} ->
+              <span class="font-bold">{{ show.startTime }}</span> to
+              <span class="font-bold"> {{ show.endTime }}</span>
             </span>
           </div>
           <p class="mt-6">{{ item.description }}</p>
@@ -46,46 +56,47 @@
 <script>
 // @ is an alias to /src
 // import { mapGetters } from 'vuex';
-import axios from "axios";
+import { useRoute } from "vue-router";
 export default {
-  name: "Locations",
-  computed: {
-    imgIdGenerator() {
-      return this.barImages[Math.floor(Math.random() * this.barImages.length)]
-        .split("/")
-        .pop()
-        .split(".")[0]
-        .match(/\d+/g)
-        .join("");
-    },
-  },
+  name: "Sports",
   data() {
     return {
-      barImages: [],
       sports: [],
-      barImage: null,
+      searchquery: "",
+      selectedFilter: "0",
     };
   },
   components: {},
+  computed: {
+    filteredItems() {
+      const filtered = [...this.sports];
+      console.log(filtered);
+      if (this.selectedFilter == "0") {
+        return this.sports;
+      }
+      if (this.selectedFilter !== "0") {
+        if (this.selectedFilter === "AName") {
+          return filtered.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        if (this.selectedFilter === "ZName") {
+          return filtered.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        if (this.selectedFilter === "LowCapacity") {
+          return filtered.sort((a, b) => a.capacity - b.capacity);
+        }
+        if (this.selectedFilter === "HighCapacity") {
+          return filtered.sort((a, b) => b.capacity - a.capacity);
+        }
+      }
+      return this.items;
+    },
+  },
   mounted() {
-    const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
-    const headers = {
-      Authorization: "EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx",
-    };
+    const route = useRoute();
+    this.searchquery = route.params.searchquery;
     const storedData = localStorage.getItem("sportSearch");
     if (storedData) {
       this.sports = JSON.parse(storedData);
-      console.log(this.sports);
-    }
-    try {
-      axios.get(url, { headers }).then((response) => {
-        const photos = response.data.photos;
-        console.log(photos);
-        this.barImages = photos.map((photo) => photo.src.large);
-        console.log(this.barImages);
-      });
-    } catch (error) {
-      console.log(error);
     }
   },
 };

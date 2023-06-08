@@ -44,10 +44,10 @@ export default {
     return {
       close: false,
       file: null,
-      barId:null
+      barId: null,
     };
   },
-  created(){
+  created() {
     const route = useRoute();
     const barId = route.params.barId;
     this.barId = barId;
@@ -55,6 +55,12 @@ export default {
   methods: {
     handleFileChange(event) {
       this.file = event.target.files[0];
+      const maxSizeInBytes = 1024 * 1024; // Maximum file size in bytes (e.g., 1MB)
+      if (this.file && this.file.size > maxSizeInBytes) {
+        alert("File size exceeds the limit. Please choose a smaller file.");
+        event.target.value = "";
+        return;
+      }
     },
     Close() {
       this.close = false;
@@ -70,8 +76,8 @@ export default {
           formData,
           barId: this.barId,
         });
-        this.Close()
-        location.reload()
+        this.Close();
+        location.reload();
       } catch (error) {
         console.log(error);
       }

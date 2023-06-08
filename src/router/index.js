@@ -19,7 +19,7 @@ const routes = [
     component: Home,
   },
   {
-    path: "/locations",
+    path: "/locations/search/:searchquery",
     name: "Location",
     component: List,
   },
@@ -29,7 +29,7 @@ const routes = [
     component: Sign,
   },
   {
-    path: "/:site/details/:itemId/:imgId/:name",
+    path: "/:site/details/:itemId/:name",
     name: "details",
     component: BarDetails,
     props: true,
@@ -40,12 +40,12 @@ const routes = [
     component: Login,
   },
   {
-    path: "/names",
+    path: "/names/search/:searchquery",
     name: "Name",
     component: NameList,
   },
   {
-    path: "/sports",
+    path: "/sports/search/:searchquery",
     name: "Sport",
     component: SportList,
   },

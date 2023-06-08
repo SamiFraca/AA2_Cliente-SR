@@ -112,7 +112,7 @@ export default {
           localStorage.setItem("sportSearch", JSON.stringify(response.data));
           if (!isRedirected.value) {
             isRedirected.value = true;
-            this.$router.push("/sports");
+            this.$router.push(`/sports/search/${this.searchSport}`);
           }
         });
       } catch (error) {
@@ -130,7 +130,7 @@ export default {
           localStorage.setItem("nameSearch", JSON.stringify(response.data));
           if (!isRedirected.value) {
             isRedirected.value = true;
-            this.$router.push("/names");
+            this.$router.push(`/names/search/${this.searchName}`);
           }
         });
       } catch (error) {
@@ -150,7 +150,7 @@ export default {
           localStorage.setItem("locationSearch", JSON.stringify(response.data));
           if (!isRedirected.value) {
             isRedirected.value = true;
-            this.$router.push("/locations");
+            this.$router.push(`/locations/search/${this.searchLocation}`);
           }
         });
       } catch (error) {

@@ -1,17 +1,27 @@
 <template>
   <div class="ml-6 info-div w-full">
-    <div v-for="item in locations" :key="item.id">
+    <div class="flex justify-between mt-8">
+      <h1 class="text-2xl text-left">
+        Results found for {{ this.searchquery }}
+      </h1>
+      <select
+        v-model="selectedFilter"
+        class="mr-8 border px-2 py-2 rounded-md border-blue-500"
+      >
+        <option value="0" selected="selected">Select an option</option>
+        <option value="AName">Name A-Z</option>
+        <option value="ZName">Name Z-A</option>
+        <option value="LowCapacity">Low Capacity</option>
+        <option value="HighCapacity">High Capacity</option>
+      </select>
+    </div>
+    <div v-for="item in filteredItems" :key="item.id">
       <div class="flex my-5 rounded-md shadow-sm mb-6 bg-white">
-        <img
-          class="bar-pics"
-          :src="
-            this.barImages[Math.floor(Math.random() * this.barImages.length)]
-          "
-        />
+        <img class="bar-pics img-size" :src="item.imageUrl" />
         <div class="flex flex-col ml-6 max-w-lg text-left justify-between">
           <h1 class="text-xl">
             <router-link
-              :to="{ 
+              :to="{
                 name: 'details',
                 params: {
                   site: 'locations',
@@ -31,8 +41,9 @@
           >
             <h1>{{ $t("message.events") }}</h1>
             <span class="" v-for="show in item.shows" :key="show.id"
-              >{{ show.title }} -> {{ show.startTime }} to
-              {{ show.endTime }}</span
+              >{{ show.title }} ->
+              <span class="font-bold">{{ show.startTime }}</span> to
+              <span class="font-bold">{{ show.endTime }}</span></span
             >
           </div>
           <p class="mt-6 mb-6">{{ item.description }}</p>
@@ -43,9 +54,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import { mapGetters } from 'vuex';
-import axios from "axios";
+import { useRoute } from "vue-router";
 export default {
   name: "Locations",
   data() {
@@ -53,56 +62,42 @@ export default {
       barImage: null,
       barImages: [],
       locations: [],
+      selectedFilter: "0",
     };
   },
   components: {},
 
   computed: {
-    // ...mapGetters(['getLocations'])
-    imgIdGenerator() {
-      return this.barImages[Math.floor(Math.random() * this.barImages.length)]
-        .split("/")
-        .pop()
-        .split(".")[0]
-        .match(/\d+/g)
-        .join("");
+    filteredItems() {
+      const filtered = [...this.locations];
+      console.log(filtered);
+      if (this.selectedFilter == "0") {
+        return this.locations;
+      } else {
+        if (this.selectedFilter === "AName") {
+          return filtered.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        if (this.selectedFilter === "ZName") {
+          return filtered.sort((a, b) => b.name.localeCompare(a.name));
+        }
+        if (this.selectedFilter === "LowCapacity") {
+          return filtered.sort((a, b) => a.capacity - b.capacity);
+        }
+        if (this.selectedFilter === "HighCapacity") {
+          return filtered.sort((a, b) => b.capacity - a.capacity);
+        }
+      }
+      return this.locations;
     },
   },
   mounted() {
-    const url = "https://api.pexels.com/v1/search?query=bars&per_page=10";
-    const headers = {
-      Authorization: "EFTaasXudZUUEnYShrSLly4gWnBbS6AP5HbxNlkmGz5B4G6RXRsr52Yx",
-    };
+    const route = useRoute();
+    this.searchquery = route.params.searchquery;
     const storedData = localStorage.getItem("locationSearch");
     if (storedData) {
       this.locations = JSON.parse(storedData);
-      console.log(this.locations);
-    }
-    try {
-      axios.get(url, { headers }).then((response) => {
-        const photos = response.data.photos;
-        console.log(photos);
-        this.barImages = photos.map((photo) => photo.src.large);
-        localStorage.setItem("images", JSON.stringify(photos));
-        this.barImage =
-          this.barImages[Math.floor(Math.random() * this.barImages.length)];
-      });
-    } catch (error) {
-      console.log(error);
     }
   },
-  methods: {
-    selectedImageId(urlImage) {
-      const url = urlImage;
-      const numberMatcher = /\d+/g;
-      const numbers = url.match(numberMatcher);
-      const desiredNumbers = numbers[0];
-      return desiredNumbers;
-    },
-  },
-  // beforeUnmount() {
-  //   localStorage.removeItem("locationSearch");
-  // },
 };
 </script>
 <style>
