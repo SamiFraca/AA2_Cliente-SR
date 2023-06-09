@@ -3,7 +3,7 @@
     <div class="flex flex-row">
       <img
         :src="this.retrievedInfo.imageUrl"
-        class="w-full object-cover rounded-md bar-pics md:ml-0 ml-8 mb-8 md:mb-0"
+        class="w-full object-cover rounded-md img-size md:ml-0 ml-8 mb-8 md:mb-0"
       />
       <div class="ml-8 flex flex-col gap-4 w-full">
         <h2 class="text-xl font-semibold">{{ this.retrievedInfo.name }}</h2>
@@ -31,14 +31,15 @@
         <a
           class="button w-32 rounded-md"
           :key="shows.id"
-          :disabled="shows.maxCap == shows.actualCap"
+          :disabled="shows.disabled || shows.maxCap == shows.actualCap"
           @click="updateActualCapRequest(shows)"
-          :class="{ 'fill-success': success && this.clickedShow == shows.id }"
+          :class="{ 'fill-success': success && clickedShow == shows.id }"
         >
           <span>Reserve</span>
         </a>
+
         <div v-if="errorCapacity" class="shake text-red">
-          Show is already full
+          Show is already full capacity
         </div>
       </div>
     </div>
@@ -59,11 +60,11 @@ export default {
     };
   },
   methods: {
-    async updateActualCapRequest(updateShow) {
-      const actualCap = updateShow.actualCap + 1;
-      const showId = updateShow.id;
-      this.clickedShow = updateShow.id;
-      if (actualCap >= updateShow.maxCap || showId == null) {
+    async updateActualCapRequest(show) {
+      const actualCap = show.actualCap + 1;
+      const showId = show.id;
+      this.clickedShow = show.id;
+      if (actualCap >= show.maxCap || showId == null) {
         this.errorCapacity = true;
         return false;
       } else {
@@ -81,6 +82,7 @@ export default {
             showId,
           });
           this.success = true;
+          show.disabled = true; // Disable the button after successful response
         } catch (error) {
           this.searchError = true;
           console.log(error);
