@@ -38,16 +38,12 @@
     </div>
     <div
       class="relative"
-      :class="{ 'shake border border-red-600 rounded-md': searchError }"
+      :class="{ 'shake': searchError }"
     >
       <input
         type="text"
         placeholder="Search establishments...."
         class="px-2 py-2 border-b w-64 hidden md:block"
-        :class="{
-          'border-red-600': searchError,
-          'border-logo-color': !searchError,
-        }"
         v-model="this.barName"
         @keyup.enter="SearchBarNameRequest"
       />
@@ -188,7 +184,7 @@ export default {
       const nameQuery = this.barName;
       try {
         await this.$store.dispatch("getBarByName", nameQuery);
-        this.bar = this.$store.state.bar;
+        this.$router.push(`/names/search/${nameQuery}`);
       } catch (error) {
         this.searchError = true;
         console.log(error);

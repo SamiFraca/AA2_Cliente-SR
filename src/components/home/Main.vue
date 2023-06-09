@@ -168,7 +168,7 @@
       <span class="font-bold"
         >The energy in the stadium or the camaraderie in a sports bar—it's
         contagious and brings joy to our lives.</span
-      ><br />
+      ><br /><br />
       And let's not forget the life lessons sports teach us. Teamwork,
       sportsmanship, and fair play—these values are at the core of sports. We
       learn to work together, respect our opponents, and play by the rules.
@@ -223,7 +223,6 @@ export default {
     },
     async submitName() {
       const isRedirected = ref(false);
-      console.log("entraName");
       const url = `https://watchmeapi-test.azurewebsites.net/Bars/names?name=${this.searchName}`;
       try {
         await axios.get(url).then((response) => {

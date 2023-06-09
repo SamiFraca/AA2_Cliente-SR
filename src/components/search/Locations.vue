@@ -16,9 +16,13 @@
       </select>
     </div>
     <div v-for="item in filteredItems" :key="item.id">
-      <div class="flex my-5 rounded-md shadow-sm mb-6 bg-white md:flex-row flex-col ml-6 md:ml-0">
-        <img class="bar-pics img-size" :src="item.imageUrl" />
-        <div class="flex flex-col  max-w-lg text-left justify-between mt-8 md:mt-0 md:ml-8">
+      <div
+        class="flex my-5 rounded-md shadow-sm mb-6 bg-white md:flex-row flex-col ml-6 md:ml-0"
+      >
+        <img class="img-size" :src="item.imageUrl" />
+        <div
+          class="flex flex-col max-w-lg text-left justify-between mt-8 md:mt-0 md:ml-8"
+        >
           <h1 class="text-xl">
             <router-link
               :to="{
@@ -43,7 +47,8 @@
             <span class="" v-for="show in item.shows" :key="show.id"
               >{{ show.title }} ->
               <span class="font-bold">{{ show.startTime }}</span> to
-              <span class="font-bold">{{ show.endTime }}</span></span
+              <span class="font-bold">{{ show.endTime }}</span>
+              </span
             >
           </div>
           <p class="mt-6 mb-6">{{ item.description }}</p>
@@ -111,7 +116,6 @@ export default {
   height: 30px;
 }
 .info-div {
-
   top: 6rem;
   bottom: 12rem;
 }
