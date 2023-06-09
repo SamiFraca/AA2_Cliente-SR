@@ -181,7 +181,7 @@
                 <input
                   type="text"
                   class="border rounded-md h-8 w-full mt-2"
-                  v-model="editShow.title"
+                  v-model="shows.title"
                   v-else
                   placeholder="Name"
                 />
@@ -221,7 +221,7 @@
             </p>
             <input
               type="text"
-              v-model="editShow.sport"
+              v-model="shows.sport"
               class="border rounded-md h-8 w-1/2 mt-2"
               v-else
               placeholder="Category"
@@ -237,7 +237,7 @@
               >
               <input
                 v-else
-                v-model="editShow.start"
+                v-model="shows.start"
                 type="datetime-local"
                 class="border rounded-md py-1 w-1/2"
               />
@@ -249,7 +249,7 @@
               >
               <input
                 v-else
-                v-model="editShow.end"
+                v-model="shows.end"
                 type="datetime-local"
                 class="border rounded-md py-1 w-1/2"
               />
@@ -263,7 +263,7 @@
                 shows.maxCap
               }}</span
               ><input
-                v-model="editShow.maxCap"
+                v-model="shows.maxCap"
                 type="number"
                 class="border rounded-md h-8 w-1/2"
                 v-else
@@ -275,7 +275,7 @@
               v-if="editShowMode && shows.id == editShowId"
               type="button"
               class="bg-save-button text-white px-4 rounded-md hover:bg-save-button-hover h-10 w-20 mt-4"
-              @click="UpdateShowRequest(shows.id, shows.actualCap)"
+              @click="UpdateShowRequest(shows.id, shows.actualCap, shows)"
             >
               Save
             </button>
@@ -432,16 +432,16 @@ export default {
           console.log(error);
         });
     },
-    async UpdateShowRequest(showId, actualCapacity) {
+    async UpdateShowRequest(showId, actualCapacity,updatedShow) {
       const updateShowId = showId;
       const updatedActualCapacity = actualCapacity;
       const formData = new FormData();
-      formData.append("title", this.editShow.title);
-      formData.append("start", this.editShow.start);
-      formData.append("end", this.editShow.end);
-      formData.append("maxCap", this.editShow.maxCap);
+      formData.append("title", updatedShow.title);
+      formData.append("start", updatedShow.start);
+      formData.append("end", updatedShow.end);
+      formData.append("maxCap", updatedShow.maxCap);
       formData.append("barId", this.barId);
-      formData.append("sport", this.editShow.sport);
+      formData.append("sport", updatedShow.sport);
       formData.append("id", showId);
       formData.append("actualCap", updatedActualCapacity);
       // formData.append("actualCap", this.newShow);
