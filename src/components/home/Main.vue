@@ -135,50 +135,52 @@
     </div>
   </div>
   <div>
-    <p class="max-w mx-auto text-left py-16">
-      <span class="font-bold"
-        >Sports hold a special place in our hearts, and it's easy to see why we
-        love them so much. For starters, sports bring out our competitive
-        spirit. </span
-      ><br /><br />
+    <div class="margin-left-15">
+      <p class="max-w mx-auto text-left py-16">
+        <span class="font-bold"
+          >Sports hold a special place in our hearts, and it's easy to see why
+          we love them so much. For starters, sports bring out our competitive
+          spirit. </span
+        ><br /><br />
 
-      Whether we're watching from the stands or playing ourselves, there's
-      something exhilarating about the thrill of victory and the agony of
-      defeat. The ups and downs of a game keep us on the edge of our seats, and
-      we can't help but get caught up in the excitement. But it's not just about
-      the competition. Sports have this amazing power to bring people together.
-      When we support our favorite team or join a recreational league, we become
-      part of a community.<br /><br />
+        Whether we're watching from the stands or playing ourselves, there's
+        something exhilarating about the thrill of victory and the agony of
+        defeat. The ups and downs of a game keep us on the edge of our seats,
+        and we can't help but get caught up in the excitement. But it's not just
+        about the competition. Sports have this amazing power to bring people
+        together. When we support our favorite team or join a recreational
+        league, we become part of a community.<br /><br />
 
-      <span class="font-bold"
-        >We bond with fellow fans or teammates over shared victories and
-        heartbreaking losses.</span
-      ><br /><br />
-      It doesn't matter where we come from or what our background is—sports have
-      this magical way of uniting us all. Sports also inspire us. We look up to
-      athletes who push their limits and overcome challenges. Their stories of
-      resilience and determination remind us that anything is possible with hard
-      work and dedication. Whether it's a last-minute comeback or an underdog's
-      triumph, these moments fill us with hope and remind us to never give up.
-      Of course, sports are also just plain fun. They give us a break from our
-      everyday lives and provide entertainment like no other. Watching our
-      favorite sport or team gives us a chance to escape, unwind, and enjoy the
-      pure excitement of the game.
-      <br /><br />
-      <span class="font-bold"
-        >The energy in the stadium or the camaraderie in a sports bar—it's
-        contagious and brings joy to our lives.</span
-      ><br /><br />
-      And let's not forget the life lessons sports teach us. Teamwork,
-      sportsmanship, and fair play—these values are at the core of sports. We
-      learn to work together, respect our opponents, and play by the rules.
-      These lessons extend far beyond the game itself and shape us into better
-      individuals. So, whether it's the thrill of competition, the sense of
-      community, the inspiration, the entertainment, or the life lessons,
-      there's no denying that sports hold a special place in our hearts. They
-      bring out the best in us and make us feel alive. It's no wonder we love
-      them so much.
-    </p>
+        <span class="font-bold"
+          >We bond with fellow fans or teammates over shared victories and
+          heartbreaking losses.</span
+        ><br /><br />
+        It doesn't matter where we come from or what our background is—sports
+        have this magical way of uniting us all. Sports also inspire us. We look
+        up to athletes who push their limits and overcome challenges. Their
+        stories of resilience and determination remind us that anything is
+        possible with hard work and dedication. Whether it's a last-minute
+        comeback or an underdog's triumph, these moments fill us with hope and
+        remind us to never give up. Of course, sports are also just plain fun.
+        They give us a break from our everyday lives and provide entertainment
+        like no other. Watching our favorite sport or team gives us a chance to
+        escape, unwind, and enjoy the pure excitement of the game.
+        <br /><br />
+        <span class="font-bold"
+          >The energy in the stadium or the camaraderie in a sports bar—it's
+          contagious and brings joy to our lives.</span
+        ><br /><br />
+        And let's not forget the life lessons sports teach us. Teamwork,
+        sportsmanship, and fair play—these values are at the core of sports. We
+        learn to work together, respect our opponents, and play by the rules.
+        These lessons extend far beyond the game itself and shape us into better
+        individuals. So, whether it's the thrill of competition, the sense of
+        community, the inspiration, the entertainment, or the life lessons,
+        there's no denying that sports hold a special place in our hearts. They
+        bring out the best in us and make us feel alive. It's no wonder we love
+        them so much.
+      </p>
+    </div>
   </div>
 </template>
 
