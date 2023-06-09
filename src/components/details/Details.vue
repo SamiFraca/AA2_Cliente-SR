@@ -1,11 +1,11 @@
 <template>
   <div class=" flex mt-8 lg:px-48 md:px-16 px-8 text-left flex-col">
-    <div class="flex md:flex-row flex-col">
+    <div class="flex md:flex-row flex-col w-full">
       <img
         :src="this.retrievedInfo.imageUrl"
-        class="object-cover rounded-md img-size md:ml-0  mb-8 md:mb-0"
+        class="img-size md:ml-0  mb-8 md:mb-0"
       />
-      <div class="md:ml-8 flex flex-col gap-8 w-full">
+      <div class="md:ml-8 flex flex-col gap-8">
         <h2 class="text-xl font-semibold">{{ this.retrievedInfo.name }}</h2>
         <p>Location: {{ this.retrievedInfo.location }}</p>
         <p>Capacity: {{ this.retrievedInfo.capacity }}</p>

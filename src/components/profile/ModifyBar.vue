@@ -38,7 +38,9 @@
             >
               <UpdateImage @close-event="closeEvent" />
             </div>
-            <div class="flex flex-col md:ml-16 items-start md:w-1/2 w-full md:m-0 mt-8">
+            <div
+              class="flex flex-col md:ml-16 items-start md:w-1/2 w-full md:m-0 mt-8"
+            >
               <h2 class="font-medium text-lg">{{ $t("message.location") }}</h2>
               <p
                 v-if="!editMode.location"
@@ -74,21 +76,23 @@
               <h2 class="font-medium text-lg">
                 {{ $t("message.description") }}
               </h2>
-              <p
-                v-if="!editMode.description"
-                @click="enableEditMode('description')"
-                class="text-lg font-semibold mt-2 py-2 edit-icon flex overflow-hidden whitespace-nowrap"
-              >
-                {{ this.bar.description }}
-              </p>
-              <textarea
-                v-else
-                ref="descriptionInput"
-                v-model="this.bar.description"
-                @blur="disableEditMode('description')"
-                @keyup.enter="disableEditMode('description')"
-                class="text-lg font-semibold mt-2 mb-4 py-2 w-9/12 h-small-input-height"
-              />
+              <div class="w-full">
+                <p
+                  v-if="!editMode.description"
+                  @click="enableEditMode('description')"
+                  class="text-lg font-semibold mt-2 py-2 edit-icon overflow-hidden whitespace-normal text-left truncate w-full block"
+                >
+                  {{ this.bar.description }}
+                </p>
+                <textarea
+                  v-else
+                  ref="descriptionInput"
+                  v-model="this.bar.description"
+                  @blur="disableEditMode('description')"
+                  @keyup.enter="disableEditMode('description')"
+                  class="text-lg font-semibold mt-2 mb-4 py-2 w-full h-small-input-height text-left"
+                />
+              </div>
             </div>
           </div>
           <button
@@ -122,35 +126,35 @@
               type="text"
               placeholder="Name"
               v-model="newShow.title"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0"
             />
             <h2 class="text-lg font-medium">Start Time</h2>
             <input
               type="datetime-local"
               placeholder=""
               v-model="newShow.start"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0"
             />
             <h2 class="text-lg font-medium">End Time</h2>
             <input
               type="datetime-local"
               placeholder=""
               v-model="newShow.end"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0"
             />
             <h2 class="text-lg font-medium">Category</h2>
             <input
               type="text"
               placeholder="Football, volleyball, show.."
               v-model="newShow.sport"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0"
             />
             <h2 class="text-lg font-medium">Maximum Capacity</h2>
             <input
               type="number"
               placeholder="Maximum Capacity of event"
               v-model="newShow.maxCap"
-              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0 "
+              class="border-solid h-10 w-72 px-4 border-gray-300 border-solid border-2 px-4 rounded-lg m-0"
             />
             <button
               class="bg-blue-500 text-white px-4 rounded-md hover:bg-blue-700 h-10 w-36 md:w-32"
@@ -432,7 +436,7 @@ export default {
           console.log(error);
         });
     },
-    async UpdateShowRequest(showId, actualCapacity,updatedShow) {
+    async UpdateShowRequest(showId, actualCapacity, updatedShow) {
       const updateShowId = showId;
       const updatedActualCapacity = actualCapacity;
       const formData = new FormData();
