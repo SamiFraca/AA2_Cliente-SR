@@ -12,6 +12,7 @@ const store = createStore({
     bar: null,
     show: null,
     bars: [],
+    language: "en",
   },
   mutations: {
     setLoggedIn(state, payload) {
@@ -40,6 +41,10 @@ const store = createStore({
     },
     setBars(state, payload) {
       state.bars = payload;
+    },
+    setLanguage(state, payload) {
+      state.language = payload;
+      console.log(state.language)
     },
   },
   actions: {

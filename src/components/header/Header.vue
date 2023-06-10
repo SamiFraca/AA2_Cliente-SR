@@ -1,7 +1,7 @@
 <template>
   <nav
     class="h-24 items-center flex justify-center justify-between border-b border-header-border bg-white w-full px-4 z-index"
-    :class="{ 'fixed': fixed }"
+    :class="{ fixed: fixed }"
   >
     <div class="justify-center flex items-center">
       <svg
@@ -36,69 +36,83 @@
         </defs>
       </svg>
     </div>
-    <div
-      class="relative"
-      :class="{ 'shake': searchError }"
-    >
+    <div class="relative" :class="{ shake: searchError }">
       <input
         type="text"
         placeholder="Search establishments...."
-        class="px-2 py-2 border-b w-64 hidden md:block"
+        class="px-2 py-2 border-b w-64 hidden md:block "
         v-model="this.barName"
         @keyup.enter="SearchBarNameRequest"
       />
       <i
-        class="search-icon absolute right-0 top-2/4 transform -translate-y-2/4 mr-2 cursor-pointer py-2 px-2"
+        class="search-icon md:absolute right-0 top-2/4 transform -translate-y-2/4 mr-2 cursor-pointer py-2 px-2 hidden md:inline"
         @click="SearchBarNameRequest"
       ></i>
     </div>
-    <div
-      v-if="!this.token"
-      class="justify-center flex justify-between p-8 sm:inline-block"
-    >
-      <router-link
-        to="/login"
-        class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
-      >
-        {{ $t("message.logIn") }}</router-link
-      >
-      <!-- <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"> -->
-      <router-link
-        to="/sign"
-        class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
-        >{{ $t("message.signIn") }}
-      </router-link>
-    </div>
-    <div v-else class="justify-center flex justify-between p-8 sm:inline-block">
-      <div
-        class="dropdown lg:mr-8 text-start"
-        @click="toggleDropdown = !toggleDropdown"
-        ref="dropdown"
-      >
-        <png><img src="../../assets/dropdown.png" /></png>
-        <div
-          v-if="toggleDropdown"
-          class="dropdown-content text-left lg:min-width"
-          ref="dropdownContent"
+
+    <div class="flex-row flex items-center">
+      <div class="hidden md:block">
+        <select
+          @change="changeLanguage()"
+          v-model="selectedLanguage"
+          class="border p-1 px-2 my-auto rounded-md"
         >
-          <router-link
-            :to="{
-              name: 'Account',
-              params: {
-                itemId: this.userId,
-              },
-            }"
-            class="block mt-4 lg:inline-block lg:mt-0 text-gray-400 hover:text-gray-700 mr-4"
+          <option v-for="(language, key) in languages" :value="key" :key="key">
+            {{ language }}
+          </option>
+        </select>
+      </div>
+      <div
+        v-if="!this.token"
+        class="justify-center flex justify-between p-8 sm:inline-block"
+      >
+        <router-link
+          to="/login"
+          class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
+        >
+          {{ $t("message.logIn") }}</router-link
+        >
+        <!-- <button class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"> -->
+        <router-link
+          to="/sign"
+          class="mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded"
+          >{{ $t("message.signIn") }}
+        </router-link>
+      </div>
+      <div
+        v-else
+        class="justify-center flex justify-between p-8 sm:inline-block"
+      >
+        <div
+          class="dropdown lg:mr-8 text-start"
+          @click="toggleDropdown = !toggleDropdown"
+          ref="dropdown"
+        >
+          <png><img src="../../assets/dropdown.png" /></png>
+          <div
+            v-if="toggleDropdown"
+            class="dropdown-content text-left lg:min-width"
+            ref="dropdownContent"
           >
-            {{ $t("message.account") }}
-          </router-link>
-          <router-link
-            to="/"
-            class="block mt-4 lg:inline-block lg:mt-2 text-gray-400 hover:text-gray-700 mr-4"
-            @click="closeSession()"
-          >
-            {{ $t("message.closeSession") }}
-          </router-link>
+            <router-link
+              :to="{
+                name: 'Account',
+                params: {
+                  itemId: this.userId,
+                },
+              }"
+              class="block mt-4 lg:inline-block lg:mt-0 text-gray-400 hover:text-gray-700 mr-4"
+            >
+              {{ $t("message.account") }}
+            </router-link>
+            <router-link
+              to="/"
+              class="block mt-4 lg:inline-block lg:mt-2 text-gray-400 hover:text-gray-700 mr-4"
+              @click="closeSession()"
+            >
+              {{ $t("message.closeSession") }}
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -151,6 +165,14 @@ export default {
       toggleDropdown: false,
       barName: "",
       searchError: false,
+      spanish: false,
+      english: true,
+      toggleLanguage: false,
+      languages: {
+        en: "English",
+        es: "Español",
+      },
+      selectedLanguage: "en",
     };
   },
   mounted() {
@@ -168,6 +190,9 @@ export default {
   methods: {
     getUserIdentity() {
       return this.userId;
+    },
+    changeLanguage() {
+      this.$store.commit("setLanguage", this.selectedLanguage);
     },
     isToken() {
       if (this.token) {
@@ -201,5 +226,16 @@ export default {
 }
 .search-icon:active {
   background-color: #057cbe;
+}
+.dropdown-icon::after {
+  content: "";
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS4zLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDUxNy44IDMwNi42IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTcuOCAzMDYuNjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPHBhdGggZD0iTTI1OC45LDMwNi42bC0yNDktMjQ5Qy0zLjMsNDQuNS0zLjMsMjMuMSw5LjksOS45YzEzLjItMTMuMiwzNC42LTEzLjIsNDcuOCwwbDIwMS4yLDIwMS4yTDQ2MC4xLDkuOQ0KCQljMTMuMi0xMy4yLDM0LjYtMTMuMiw0Ny44LDBjMTMuMiwxMy4yLDEzLjIsMzQuNiwwLDQ3LjhMMjU4LjksMzA2LjZ6Ii8+DQo8L2c+DQo8L3N2Zz4NCg==);
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  top: 15px;
+  display: inline-block;
+  position: relative;
 }
 </style>
