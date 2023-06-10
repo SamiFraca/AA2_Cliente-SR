@@ -4,10 +4,11 @@ import router from "./router";
 import store from "./store";
 import "./index.css";
 import { createI18n } from "vue-i18n";
-
+const currentLanguage = store.state.language;
+console.log(currentLanguage);
 const app = createApp(App);
 const i18n = createI18n({
-  locale: "en",
+  locale: store.state.language,
   messages: {
     es: {
       message: {
@@ -68,5 +69,11 @@ const i18n = createI18n({
 app.use(router);
 app.use(store);
 app.use(i18n);
-
 app.mount("#app");
+
+store.watch(
+  (state) => state.language,
+  (newLanguage) => {
+    i18n.global.locale = newLanguage;
+  }
+);
