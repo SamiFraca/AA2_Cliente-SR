@@ -1,9 +1,9 @@
 <template>
-  <div class=" flex mt-8 lg:px-48 md:px-16 px-8 text-left flex-col">
+  <div class="flex mt-8 lg:px-48 md:px-16 px-8 text-left flex-col">
     <div class="flex md:flex-row flex-col w-full">
       <img
         :src="this.retrievedInfo.imageUrl"
-        class="img-size md:ml-0  mb-8 md:mb-0"
+        class="img-size md:ml-0 mb-8 md:mb-0"
       />
       <div class="md:ml-8 flex flex-col gap-8">
         <h2 class="text-xl font-semibold">{{ this.retrievedInfo.name }}</h2>
@@ -57,6 +57,7 @@ export default {
       errorCapacity: false,
       success: false,
       clickedShow: 0,
+      token:null
     };
   },
   methods: {
@@ -64,29 +65,34 @@ export default {
       const actualCap = show.actualCap + 1;
       const showId = show.id;
       this.clickedShow = show.id;
-      if (actualCap >= show.maxCap || showId == null) {
-        this.errorCapacity = true;
-        return false;
-      } else {
-        const patchOperation = [
-          {
-            op: "replace",
-            path: "/actualCap",
-            value: actualCap,
-          },
-        ];
-        console.log(patchOperation);
-        try {
-          await this.$store.dispatch("UpdateActualCap", {
-            patchOperation,
-            showId,
-          });
-          this.success = true;
-          show.disabled = true; // Disable the button after successful response
-        } catch (error) {
-          this.searchError = true;
-          console.log(error);
+      const userToken = sessionStorage.getItem("token");
+      if (userToken) {
+        if (actualCap >= show.maxCap || showId == null) {
+          this.errorCapacity = true;
+          return false;
+        } else {
+          const patchOperation = [
+            {
+              op: "replace",
+              path: "/actualCap",
+              value: actualCap,
+            },
+          ];
+          console.log(patchOperation);
+          try {
+            await this.$store.dispatch("UpdateActualCap", {
+              patchOperation,
+              showId,
+            });
+            this.success = true;
+            show.disabled = true; // Disable the button after successful response
+          } catch (error) {
+            this.searchError = true;
+            console.log(error);
+          }
         }
+      }else{
+        this.$router.push('/login')
       }
     },
   },

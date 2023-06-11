@@ -35,6 +35,7 @@ const i18n = createI18n({
         country: "País",
         city: "Ciudad",
         address: "Dirección",
+        create:"Crear"
       },
     },
     en: {
@@ -62,6 +63,7 @@ const i18n = createI18n({
         country: "Country",
         city: "City",
         address: "Address",
+        create:"Create"
       },
     },
   },
