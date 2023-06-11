@@ -58,6 +58,15 @@
       >
         {{ $t("message.signIn") }}
       </button>
+      <div class="pt-2">
+        {{ $t("message.registered") }}
+        <span
+          class="text-blue-600 cursor-pointer underline"
+          @click="this.$router.push('/login')"
+        >
+          {{ $t("message.login") }}</span
+        >
+      </div>
     </form>
   </div>
 </template>
