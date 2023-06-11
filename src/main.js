@@ -30,7 +30,11 @@ const i18n = createI18n({
         hello:"Hola",
         create:"Crear",
         delete:"Borrar",
-        cancel:"Cancelar"
+        cancel:"Cancelar",
+        noAccount:"¿No tienes cuenta?",
+        register:"Registrar",
+        registered:"¿Ya estás registrado?",
+        login:"Inicia sesión"
       }
     },
     en: {
@@ -55,7 +59,11 @@ const i18n = createI18n({
         hello:"Hi",
         create:"Create",
         delete:"Delete",
-        cancel:"Cancel"
+        cancel:"Cancel",
+        noAccount:"You don't have an account?",
+        register:"Register",
+        registered:"Are you already registered?",
+        login:"Log in"
       }
     }
   }
