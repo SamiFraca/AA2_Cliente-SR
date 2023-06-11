@@ -27,7 +27,8 @@ const i18n = createI18n({
         capacity:"Capacidad",
         closeSession:"Cerrar sesión",
         account:"Cuenta",
-        hello:"Hola"
+        hello:"Hola",
+        create:"Crear"
       }
     },
     en: {
@@ -49,7 +50,8 @@ const i18n = createI18n({
         capacity:"Capacidad",
         closeSession:"Logout",
         account:"Account",
-        hello:"Hi"
+        hello:"Hi",
+        create:"Create"
       }
     }
   }
