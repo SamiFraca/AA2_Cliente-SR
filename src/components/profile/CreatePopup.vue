@@ -96,7 +96,7 @@ export default {
       if (this.file) {
         formData.append("imageFile", this.file);
       } else {
-        formData.append("imageFile", "null");
+        formData.append("imageFile", "https://postimg.cc/fkfS07tJ");
       }
       const result = [this.Address, this.City, this.Country].join(", ");
       // for (const [key, value] of formData.entries()) {
