@@ -32,6 +32,15 @@
         <span v-if="!this.isLoading"><Loader /></span>
         <span v-else> {{ $t("message.logIn") }}</span>
       </button>
+      <div class="pt-2 ">
+        {{ $t("message.noAccount") }}
+        <span
+          class="text-blue-600 cursor-pointer underline"
+          @click="this.$router.push('/sign')"
+        >
+          {{ $t("message.register") }}</span
+        >
+      </div>
     </form>
   </div>
 </template>
